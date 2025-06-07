@@ -1,5 +1,7 @@
 # One Open Operating System
 
+  All things have equal rights.
+
 给了你们5年时间，你们搞的太慢了，让我来搞吧
 
 ![image](docs/cat.jpeg)
