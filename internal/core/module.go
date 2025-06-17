@@ -1,10 +1,10 @@
 package core
 
 import (
+	"github.com/zeusro/system/internal/core/config"
+	"github.com/zeusro/system/internal/core/logprovider"
+	"github.com/zeusro/system/internal/core/webprovider"
 	"go.uber.org/fx"
-	"zeusro.com/gotemplate/internal/core/config"
-	"zeusro.com/gotemplate/internal/core/logprovider"
-	"zeusro.com/gotemplate/internal/core/webprovider"
 )
 
 var CoreModule = fx.Options(

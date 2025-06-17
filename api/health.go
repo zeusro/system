@@ -2,9 +2,9 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"zeusro.com/gotemplate/internal/core/logprovider"
-	"zeusro.com/gotemplate/internal/core/webprovider"
-	"zeusro.com/gotemplate/internal/service"
+	"github.com/zeusro/system/internal/core/logprovider"
+	"github.com/zeusro/system/internal/core/webprovider"
+	"github.com/zeusro/system/internal/service"
 )
 
 type IndexRoutes struct {

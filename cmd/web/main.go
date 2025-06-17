@@ -9,14 +9,14 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/zeusro/system/api"
+	"github.com/zeusro/system/internal/core"
+	"github.com/zeusro/system/internal/core/config"
+	"github.com/zeusro/system/internal/core/logprovider"
+	"github.com/zeusro/system/internal/core/webprovider"
+	"github.com/zeusro/system/internal/service"
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"
-	"zeusro.com/gotemplate/api"
-	"zeusro.com/gotemplate/internal/core"
-	"zeusro.com/gotemplate/internal/core/config"
-	"zeusro.com/gotemplate/internal/core/logprovider"
-	"zeusro.com/gotemplate/internal/core/webprovider"
-	"zeusro.com/gotemplate/internal/service"
 )
 
 func main() {

@@ -1,4 +1,4 @@
-module zeusro.com/gotemplate
+module github.com/zeusro/system
 
 //为了方便调试而降低版本
 go 1.24
@@ -8,6 +8,7 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/google/uuid v1.6.0
+	github.com/joho/godotenv v1.5.1
 	github.com/rs/cors/wrapper/gin v0.0.0-20240830163046-1084d89a1692
 	github.com/spf13/viper v1.20.1
 	go.uber.org/fx v1.23.0

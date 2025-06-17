@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0e13e978-154c-4771-b029-53b553bbb783" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/.dockerignore " afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/configs/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/function/local/time_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/module.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/health.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/health.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/web/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/web/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/function/local/time.go" beforeDir="false" afterPath="$PROJECT_DIR$/function/local/time.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/core/logprovider/zap.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/core/logprovider/zap.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/core/module.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/core/module.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/core/webprovider/cors.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/core/webprovider/cors.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/core/webprovider/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/core/webprovider/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/core/webprovider/webprovider.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/core/webprovider/webprovider.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/service/health.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/service/health.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.zh-CN.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.zh-CN.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file:///usr/local/go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2ycK80nJTFeRdkDumSDKkv0rB8b" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "正在合并 main",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "/Users/zeusro/code/system",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-33c477a475b1-e0158606a674-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.15989.157" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-GO-241.15989.157" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>
