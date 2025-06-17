@@ -5,8 +5,8 @@ import (
 )
 
 type Salesman struct {
-	TodoCity map[string]City // 旅行的城市列表
-	Plan     []City          // 旅行计划,是一个环形队列，这里简单用数组表示
+	TodoCity map[string]City // 计划旅行的所有城市列表
+	Plan     []City          // 实际执行的旅行计划,是一个环形队列，这里简单用数组表示
 }
 
 func NewSalesman() *Salesman {
