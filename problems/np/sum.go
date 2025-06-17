@@ -1,4 +1,4 @@
-package problems
+package np
 
 import (
 	"math/rand" // ✅ 使用 math/rand
