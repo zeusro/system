@@ -22,17 +22,15 @@ func NewSalesman() *Salesman {
 	return s
 }
 
-// 踏上旅程，寻找真我
+// Travel 踏上旅程，寻找真我
 func (s *Salesman) Travel(current City, plan []City) []City {
 	// 删除起点城市
 	// /上一次的目的地是这一次的起点城市
+	delete(s.TodoCity, current.Name) //由于计划是单线程，不用考虑线程安全
 	n := len(s.TodoCity)
 	if n == 1 {
 		s.Plan = append(s.Plan, current)
-		s.Plan = append(s.Plan, s.Plan[0])
-		return s.Plan
 	}
-	delete(s.TodoCity, current.Name) //由于计划是单线程，不用考虑线程安全
 	//边界的判断条件是剩余旅行城市=0
 	if n == 0 {
 		s.Plan = append(s.Plan, s.Plan[0]) // 回到起点，形成环形
@@ -51,6 +49,7 @@ func (s *Salesman) Travel(current City, plan []City) []City {
 		}
 	}
 	s.Plan = append(s.Plan, nextCity)
+
 	return s.Travel(nextCity, plan) // 递归调用
 }
 

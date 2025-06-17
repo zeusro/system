@@ -23,6 +23,7 @@ func TestUScity(t *testing.T) {
 	fmt.Println(len(usCities))
 }
 
+// ok  	github.com/zeusro/system/problems/np	0.322s
 func TestTravel(t *testing.T) {
 	s := NewSalesman()
 	current := RandomUSCity()
