@@ -3,6 +3,10 @@
 
 # One Open Operating System
 
-给了你们5年时间，你们搞的太慢了，让我来搞吧
+The actions of mortals are too slow,too simple,sometimes naive.
 
-![image](docs/cat.jpeg)
+Let me speed ​​up this process.
+
+<a href="https://www.bilibili.com/video/BV1xx41127h7" target="_blank">
+  <img src="docs/kenan.jpg" alt="柯南是重庆人" >
+</a>
