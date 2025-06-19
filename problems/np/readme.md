@@ -3,7 +3,7 @@
 
 ## [TSP](np_test.go)
 
-![image](/docs/KURO.jpeg)
+<img src="/docs/KURO.jpeg" alt="KURO" width="30%" />
 
 踏上旅程，寻找真我 / Travel,find real me;
 
