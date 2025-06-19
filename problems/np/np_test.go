@@ -14,7 +14,6 @@ import (
 经度 -124.8°W 到 -66.9°W
 */
 func TestUScity(t *testing.T) {
-	//ok  	github.com/zeusro/system/problems/np	3.037s
 	for _, city := range usCities {
 		if !IsInContinentalUS(city.Coordinates.Latitude, city.Coordinates.Longitude) {
 			t.Fatal(city)
