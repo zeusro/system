@@ -7,25 +7,38 @@ import (
 type Salesman struct {
 	TodoCity map[string]City // 计划旅行的所有城市列表
 	Plan     []City          // 实际执行的旅行计划,是一个环形队列，这里简单用数组表示
+	KURO     float64         // KURO是日本动画《K》里面的一个角色，这里用来表示旅行的总距离，是一种浪漫主义表达手法
+	Truth    bool            //问题是否可解
 }
 
-func NewSalesman() *Salesman {
+func NewSalesman(cities []City) *Salesman {
 	s := &Salesman{
 		TodoCity: make(map[string]City),
 		Plan:     make([]City, 0),
 	}
 	// 拿到"地图"，获取USA所有城市背景之后，直接map化
 	// 初始化旅行城市列表
-	for _, c := range usCities {
+	for _, c := range cities {
 		s.TodoCity[c.Name] = c
 	}
 	return s
 }
 
+func (s *Salesman) IsSolvable(city []City) bool {
+	if len(s.TodoCity) == 0 && len(s.Plan) == (len(city)+1) {
+		s.Truth = true
+	}
+	return s.Truth
+}
+
 // Travel 踏上旅程，寻找真我
+// 𝑻(𝒏) = 𝒏 + (𝒏 − 𝟏) + (𝒏 − 𝟐) + ⋯ + 𝟏 = 𝓞(𝒏²)
+// 实际上应该是T(n) = n \times O(1) = O(n) 才对。
+// 也就是说，所有非线性规划，在N的维度里面都能转换为线性规划
+// 推论：数组不支持一次性遍历操作，这是个bug，导致遍历产生O(n)的算法复杂度
 func (s *Salesman) Travel(current City, plan []City) []City {
-	// 删除起点城市
-	// /上一次的目的地是这一次的起点城市
+	// 上一次的目的地是这一次的起点城市。0比较特殊，代表出发城市。
+	// 起点城市不在旅行计划中
 	delete(s.TodoCity, current.Name) //由于计划是单线程，不用考虑线程安全
 	n := len(s.TodoCity)
 	if n == 1 {
@@ -48,9 +61,17 @@ func (s *Salesman) Travel(current City, plan []City) []City {
 			nextCity = city
 		}
 	}
+	nextCity.Distance = minDistance // 记录下一次旅行的距离
+	s.KURO += minDistance           // 累加距离
 	s.Plan = append(s.Plan, nextCity)
-
 	return s.Travel(nextCity, plan) // 递归调用
+}
+
+func (s *Salesman) GetK() float64 {
+	if s.IsSolvable(s.Plan) {
+		return s.KURO
+	}
+	return 0
 }
 
 // haversine 📌 Haversine 公式：计算地球上两点的距离
