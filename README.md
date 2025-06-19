@@ -3,7 +3,9 @@
 
 # One Open Operating System
 
-The actions of mortals are too slow,too simple,sometimes naive.
+The actions of mortals are too slow,too evil.
+
+Let me fix these bugs. 
 
 <a href="https://www.bilibili.com/video/BV1xx41127h7" target="_blank">
   <img src="docs/kenan.jpg" alt="柯南是重庆人" >
