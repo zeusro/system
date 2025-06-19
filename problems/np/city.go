@@ -6,10 +6,9 @@ import (
 )
 
 type City struct {
-	Name        string      `yaml:"name"`
-	Timezone    string      `yaml:"timezone"`
-	Coordinates Coordinates `yaml:"coordinates"`
-	Distance    float64
+	Coordinates
+	Name     string `yaml:"name"`
+	Distance float64
 }
 
 // Coordinates 经纬度
@@ -21,8 +20,8 @@ type Coordinates struct {
 // usCities 包含美国各州不同区域的至少 50 个城市
 var usCities = []City{
 	City{
-		Name:     "New York",
-		Timezone: "America/New_York",
+		Name: "New York",
+
 		Coordinates: Coordinates{
 			Latitude:  40.7128,
 			Longitude: -74.0060,
@@ -30,8 +29,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Los Angeles",
-		Timezone: "America/Los_Angeles",
+		Name: "Los Angeles",
+
 		Coordinates: Coordinates{
 			Latitude:  34.0522,
 			Longitude: -118.2437,
@@ -39,8 +38,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Chicago",
-		Timezone: "America/Chicago",
+		Name: "Chicago",
+
 		Coordinates: Coordinates{
 			Latitude:  41.8781,
 			Longitude: -87.6298,
@@ -48,8 +47,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Houston",
-		Timezone: "America/Chicago",
+		Name: "Houston",
+
 		Coordinates: Coordinates{
 			Latitude:  29.7604,
 			Longitude: -95.3698,
@@ -57,8 +56,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Phoenix",
-		Timezone: "America/Phoenix",
+		Name: "Phoenix",
+
 		Coordinates: Coordinates{
 			Latitude:  33.4484,
 			Longitude: -112.0740,
@@ -66,8 +65,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Philadelphia",
-		Timezone: "America/New_York",
+		Name: "Philadelphia",
+
 		Coordinates: Coordinates{
 			Latitude:  39.9526,
 			Longitude: -75.1652,
@@ -75,8 +74,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "San Antonio",
-		Timezone: "America/Chicago",
+		Name: "San Antonio",
+
 		Coordinates: Coordinates{
 			Latitude:  29.4241,
 			Longitude: -98.4936,
@@ -84,8 +83,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "San Diego",
-		Timezone: "America/Los_Angeles",
+		Name: "San Diego",
+
 		Coordinates: Coordinates{
 			Latitude:  32.7157,
 			Longitude: -117.1611,
@@ -93,8 +92,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Dallas",
-		Timezone: "America/Chicago",
+		Name: "Dallas",
+
 		Coordinates: Coordinates{
 			Latitude:  32.7767,
 			Longitude: -96.7970,
@@ -102,8 +101,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "San Jose",
-		Timezone: "America/Los_Angeles",
+		Name: "San Jose",
+
 		Coordinates: Coordinates{
 			Latitude:  37.3382,
 			Longitude: -121.8863,
@@ -111,8 +110,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Austin",
-		Timezone: "America/Chicago",
+		Name: "Austin",
+
 		Coordinates: Coordinates{
 			Latitude:  30.2672,
 			Longitude: -97.7431,
@@ -120,8 +119,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Jacksonville",
-		Timezone: "America/New_York",
+		Name: "Jacksonville",
+
 		Coordinates: Coordinates{
 			Latitude:  30.3322,
 			Longitude: -81.6557,
@@ -129,8 +128,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Fort Worth",
-		Timezone: "America/Chicago",
+		Name: "Fort Worth",
+
 		Coordinates: Coordinates{
 			Latitude:  32.7555,
 			Longitude: -97.3308,
@@ -138,8 +137,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Columbus",
-		Timezone: "America/New_York",
+		Name: "Columbus",
+
 		Coordinates: Coordinates{
 			Latitude:  39.9612,
 			Longitude: -82.9988,
@@ -147,8 +146,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Charlotte",
-		Timezone: "America/New_York",
+		Name: "Charlotte",
+
 		Coordinates: Coordinates{
 			Latitude:  35.2271,
 			Longitude: -80.8431,
@@ -156,8 +155,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "San Francisco",
-		Timezone: "America/Los_Angeles",
+		Name: "San Francisco",
+
 		Coordinates: Coordinates{
 			Latitude:  37.7749,
 			Longitude: -122.4194,
@@ -165,8 +164,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Indianapolis",
-		Timezone: "America/Indiana/Indianapolis",
+		Name: "Indianapolis",
+
 		Coordinates: Coordinates{
 			Latitude:  39.7684,
 			Longitude: -86.1581,
@@ -174,8 +173,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Seattle",
-		Timezone: "America/Los_Angeles",
+		Name: "Seattle",
+
 		Coordinates: Coordinates{
 			Latitude:  47.6062,
 			Longitude: -122.3321,
@@ -183,8 +182,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Denver",
-		Timezone: "America/Denver",
+		Name: "Denver",
+
 		Coordinates: Coordinates{
 			Latitude:  39.7392,
 			Longitude: -104.9903,
@@ -192,8 +191,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Washington",
-		Timezone: "America/New_York",
+		Name: "Washington",
+
 		Coordinates: Coordinates{
 			Latitude:  38.9072,
 			Longitude: -77.0369,
@@ -201,8 +200,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Boston",
-		Timezone: "America/New_York",
+		Name: "Boston",
+
 		Coordinates: Coordinates{
 			Latitude:  42.3601,
 			Longitude: -71.0589,
@@ -210,8 +209,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "El Paso",
-		Timezone: "America/Denver",
+		Name: "El Paso",
+
 		Coordinates: Coordinates{
 			Latitude:  31.7619,
 			Longitude: -106.4850,
@@ -219,8 +218,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Nashville",
-		Timezone: "America/Chicago",
+		Name: "Nashville",
+
 		Coordinates: Coordinates{
 			Latitude:  36.1627,
 			Longitude: -86.7816,
@@ -228,8 +227,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Detroit",
-		Timezone: "America/Detroit",
+		Name: "Detroit",
+
 		Coordinates: Coordinates{
 			Latitude:  42.3314,
 			Longitude: -83.0458,
@@ -237,8 +236,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Oklahoma City",
-		Timezone: "America/Chicago",
+		Name: "Oklahoma City",
+
 		Coordinates: Coordinates{
 			Latitude:  35.4676,
 			Longitude: -97.5164,
@@ -246,8 +245,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Portland",
-		Timezone: "America/Los_Angeles",
+		Name: "Portland",
+
 		Coordinates: Coordinates{
 			Latitude:  45.5051,
 			Longitude: -122.6750,
@@ -255,8 +254,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Las Vegas",
-		Timezone: "America/Los_Angeles",
+		Name: "Las Vegas",
+
 		Coordinates: Coordinates{
 			Latitude:  36.1699,
 			Longitude: -115.1398,
@@ -264,8 +263,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Memphis",
-		Timezone: "America/Chicago",
+		Name: "Memphis",
+
 		Coordinates: Coordinates{
 			Latitude:  35.1495,
 			Longitude: -90.0490,
@@ -273,8 +272,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Louisville",
-		Timezone: "America/Kentucky/Louisville",
+		Name: "Louisville",
+
 		Coordinates: Coordinates{
 			Latitude:  38.2527,
 			Longitude: -85.7585,
@@ -282,8 +281,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Baltimore",
-		Timezone: "America/New_York",
+		Name: "Baltimore",
+
 		Coordinates: Coordinates{
 			Latitude:  39.2904,
 			Longitude: -76.6122,
@@ -291,8 +290,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Milwaukee",
-		Timezone: "America/Chicago",
+		Name: "Milwaukee",
+
 		Coordinates: Coordinates{
 			Latitude:  43.0389,
 			Longitude: -87.9065,
@@ -300,8 +299,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Albuquerque",
-		Timezone: "America/Denver",
+		Name: "Albuquerque",
+
 		Coordinates: Coordinates{
 			Latitude:  35.0844,
 			Longitude: -106.6504,
@@ -309,8 +308,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Tucson",
-		Timezone: "America/Phoenix",
+		Name: "Tucson",
+
 		Coordinates: Coordinates{
 			Latitude:  32.2226,
 			Longitude: -110.9747,
@@ -318,8 +317,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Fresno",
-		Timezone: "America/Los_Angeles",
+		Name: "Fresno",
+
 		Coordinates: Coordinates{
 			Latitude:  36.7378,
 			Longitude: -119.7871,
@@ -327,8 +326,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Mesa",
-		Timezone: "America/Phoenix",
+		Name: "Mesa",
+
 		Coordinates: Coordinates{
 			Latitude:  33.4152,
 			Longitude: -111.8315,
@@ -336,8 +335,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Sacramento",
-		Timezone: "America/Los_Angeles",
+		Name: "Sacramento",
+
 		Coordinates: Coordinates{
 			Latitude:  38.5816,
 			Longitude: -121.4944,
@@ -345,8 +344,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Atlanta",
-		Timezone: "America/New_York",
+		Name: "Atlanta",
+
 		Coordinates: Coordinates{
 			Latitude:  33.7490,
 			Longitude: -84.3880,
@@ -354,8 +353,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Kansas City",
-		Timezone: "America/Chicago",
+		Name: "Kansas City",
+
 		Coordinates: Coordinates{
 			Latitude:  39.0997,
 			Longitude: -94.5786,
@@ -363,8 +362,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Colorado Springs",
-		Timezone: "America/Denver",
+		Name: "Colorado Springs",
+
 		Coordinates: Coordinates{
 			Latitude:  38.8339,
 			Longitude: -104.8214,
@@ -372,8 +371,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Miami",
-		Timezone: "America/New_York",
+		Name: "Miami",
+
 		Coordinates: Coordinates{
 			Latitude:  25.7617,
 			Longitude: -80.1918,
@@ -381,8 +380,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Raleigh",
-		Timezone: "America/New_York",
+		Name: "Raleigh",
+
 		Coordinates: Coordinates{
 			Latitude:  35.7796,
 			Longitude: -78.6382,
@@ -390,8 +389,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Omaha",
-		Timezone: "America/Chicago",
+		Name: "Omaha",
+
 		Coordinates: Coordinates{
 			Latitude:  41.2565,
 			Longitude: -95.9345,
@@ -399,8 +398,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Long Beach",
-		Timezone: "America/Los_Angeles",
+		Name: "Long Beach",
+
 		Coordinates: Coordinates{
 			Latitude:  33.7701,
 			Longitude: -118.1937,
@@ -408,8 +407,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Virginia Beach",
-		Timezone: "America/New_York",
+		Name: "Virginia Beach",
+
 		Coordinates: Coordinates{
 			Latitude:  36.8529,
 			Longitude: -75.9780,
@@ -417,8 +416,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Oakland",
-		Timezone: "America/Los_Angeles",
+		Name: "Oakland",
+
 		Coordinates: Coordinates{
 			Latitude:  37.8044,
 			Longitude: -122.2711,
@@ -426,8 +425,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Minneapolis",
-		Timezone: "America/Chicago",
+		Name: "Minneapolis",
+
 		Coordinates: Coordinates{
 			Latitude:  44.9778,
 			Longitude: -93.2650,
@@ -435,8 +434,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Tulsa",
-		Timezone: "America/Chicago",
+		Name: "Tulsa",
+
 		Coordinates: Coordinates{
 			Latitude:  36.1539,
 			Longitude: -95.9928,
@@ -444,8 +443,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Arlington",
-		Timezone: "America/Chicago",
+		Name: "Arlington",
+
 		Coordinates: Coordinates{
 			Latitude:  32.7357,
 			Longitude: -97.1081,
@@ -453,8 +452,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "New Orleans",
-		Timezone: "America/Chicago",
+		Name: "New Orleans",
+
 		Coordinates: Coordinates{
 			Latitude:  29.9511,
 			Longitude: -90.0715,
@@ -462,8 +461,8 @@ var usCities = []City{
 		Distance: 0,
 	},
 	City{
-		Name:     "Wichita",
-		Timezone: "America/Chicago",
+		Name: "Wichita",
+
 		Coordinates: Coordinates{
 			Latitude:  37.6872,
 			Longitude: -97.3301,

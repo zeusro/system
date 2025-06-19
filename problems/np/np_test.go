@@ -21,18 +21,3 @@ func TestUScity(t *testing.T) {
 	}
 	fmt.Println(len(usCities))
 }
-
-// ok  	github.com/zeusro/system/problems/np	0.322s
-// ok  	github.com/zeusro/system/problems/np	0.810s 不存距离可以快点
-func TestTravel(t *testing.T) {
-	s := NewSalesman(usCities)
-	current := RandomUSCity()
-	plans := s.Travel(current, s.Plan)
-	if !s.IsSolvable(usCities) {
-		t.FailNow()
-	}
-	for i, plan := range plans {
-		fmt.Printf("%v:%+vD\n", i, plan)
-	}
-	fmt.Printf("跨越漫长的旅程（%v km），终于见到KURO\n", s.KURO)
-}
