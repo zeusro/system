@@ -1,7 +1,7 @@
 
 # P = NP
 
-## [TSP](np/model/v2/tsp_test.go)
+## TSP
 
 - [v1](model/v1/tsp_test.go)
 - [v2](model/v2/tsp_test.go)
