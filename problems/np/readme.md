@@ -3,8 +3,8 @@
 
 ## [TSP](np/model/v2/tsp_test.go)
 
-[v1](model/v1/tsp_test.go)
-[v2](model/v2/tsp_test.go)
+- [v1](model/v1/tsp_test.go)
+- [v2](model/v2/tsp_test.go)
 
 <img src="/docs/KURO.jpeg" alt="KURO" width="30%" />
 
