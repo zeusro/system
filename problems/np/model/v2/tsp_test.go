@@ -7,7 +7,10 @@ import (
 	v1 "github.com/zeusro/system/problems/np/model/v1"
 )
 
-// ok  	github.com/zeusro/system/problems/np/model/v2	0.514s
+// 不打印
+// ok  	github.com/zeusro/system/problems/np/model/v2	0.265s
+// 打印
+// ok  	github.com/zeusro/system/problems/np/model/v2	0.455s
 func TestTravelN(t *testing.T) {
 	s := NewSalesman(v1.USCities)
 	// current := ConvertCityFromV1(v1.RandomUSCity())
@@ -17,11 +20,11 @@ func TestTravelN(t *testing.T) {
 	if !s.IsSolvable(v1.USCities) {
 		t.Fatal("旅行计划不可行")
 	}
-	start := 0
-	for i := len(s.Plan) - 1; i > 0; i-- {
-		fmt.Printf("%v:%+v\n", start, s.Plan[i])
-		start++
-	}
+	// start := 0
+	// for i := len(s.Plan) - 1; i > 0; i-- {
+	// 	fmt.Printf("%v:%+v\n", start, s.Plan[i])
+	// 	start++
+	// }
 	fmt.Printf("跨越漫长的旅程（%v km），终于见到KURO\n", s.KURO)
 }
 
