@@ -1,7 +1,7 @@
 
 # P = NP
 
-## [TSP](np_test.go)
+## [TSP](np/model/v2/tsp_test.go)
 
 <img src="/docs/KURO.jpeg" alt="KURO" width="30%" />
 
