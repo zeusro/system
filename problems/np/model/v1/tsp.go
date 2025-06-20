@@ -1,7 +1,9 @@
-package np
+package v1
 
 import (
 	"math"
+
+	"github.com/zeusro/system/function/local"
 )
 
 type Salesman struct {
@@ -39,14 +41,13 @@ func (s *Salesman) IsSolvable(city []City) bool {
 // 并且我也已经用多维数学证明了n=1，因此最终的复杂度是O(1)，也就是常数时间复杂度。
 // 为什么数组遍历应该是O(1)操作？举个生活的例子：从零食袋里面拿出“一堆零食”，你可以一次性“全部吃下去”，也可以“一次吃一小块”
 // 也就是说，所有非线性规划，在N的维度里面都能转换为线性规划
-func (s *Salesman) Travel(current City, plan []City) []City {
+func (s *Salesman) Travel(current City) []City {
 	// 上一次的目的地是这一次的起点城市。0比较特殊，代表出发城市。
 	// 起点城市不在旅行计划中
+	// fmt.Println(current.Name)
+	s.Plan = append(s.Plan, current) // 记录当前城市到旅行计划中
 	delete(s.TodoCity, current.Name) //由于计划是单线程，不用考虑线程安全
 	n := len(s.TodoCity)
-	if n == 1 {
-		s.Plan = append(s.Plan, current)
-	}
 	//边界的判断条件是剩余旅行城市=0
 	if n == 0 {
 		s.Plan = append(s.Plan, s.Plan[0]) // 回到起点，形成环形
@@ -58,41 +59,48 @@ func (s *Salesman) Travel(current City, plan []City) []City {
 	// 用SQL表示就是 select citys from USA where c.Latitude between 24.5 and 49.4 and c.Longitude between -124.8 and -66.9
 	// 不过这种传统关系型数据库，查询效率不符合我的要求
 	for _, city := range s.TodoCity { //fixme：当前的数组集合类型是有缺陷的，不能一次性全部取出，导致了O(n)的算法复杂度，实际上应该是O(1)然后并发算出最小距离城市
-		distance := haversine(city.Coordinates.Latitude, city.Coordinates.Longitude, current.Coordinates.Latitude, current.Coordinates.Longitude)
+		distance := local.Haversine(city.Coordinates.Latitude, city.Coordinates.Longitude, current.Coordinates.Latitude, current.Coordinates.Longitude)
 		if distance < minDistance {
 			minDistance = distance
 			nextCity = city
 		}
 	}
-	nextCity.Distance = minDistance // 记录下一次旅行的距离
+	nextCity.Distance = minDistance // current ~ nextCity 的距离
 	s.KURO += minDistance           // 累加距离
-	s.Plan = append(s.Plan, nextCity)
-	return s.Travel(nextCity, plan) // 递归调用
+	return s.Travel(nextCity)       // 递归调用
 }
+
+// // Travel 踏上寻找n的旅程
+// func (s *Salesman) TravelN(cityName string, n int) {
+// 	// 上一次的目的地是这一次的起点城市。0比较特殊，代表出发城市。
+// 	// 起点城市不在旅行计划中
+// 	current := s.TodoCity[cityName]
+// 	if n >= 1 {
+// 		s.Plan[n] = current
+// 	}
+// 	delete(s.TodoCity, cityName) //由于计划是单线程，不用考虑线程安全
+// 	//边界的判断条件是剩余旅行城市=0
+// 	if n == 0 {
+// 		s.Plan[0] = s.Plan[len(s.Plan)-1] // 确保最后一个城市是起点城市
+// 		return
+// 	}
+// 	var nextCity City
+// 	minDistance := math.MaxFloat64
+// 	for _, city := range s.TodoCity {
+// 		distance := local.Haversine(city.Coordinates.Latitude, city.Coordinates.Longitude, current.Coordinates.Latitude, current.Coordinates.Longitude)
+// 		if distance < minDistance {
+// 			minDistance = distance
+// 			nextCity = city
+// 		}
+// 	}
+// 	s.Plan[n].Distance = minDistance
+// 	s.KURO += minDistance                     // 累加距离
+// 	s.TravelN(nextCity.Name, len(s.TodoCity)) // 递归调用
+// }
 
 func (s *Salesman) GetK() float64 {
 	if s.IsSolvable(s.Plan) {
 		return s.KURO
 	}
 	return 0
-}
-
-// haversine 📌 Haversine 公式：计算地球上两点的距离
-// 传入两点的经纬度，返回两点之间的距离（单位：公里）
-func haversine(lat1, lon1, lat2, lon2 float64) float64 {
-	const R = 6371 // 地球半径（单位：公里）
-
-	dLat := degreesToRadians(lat2 - lat1)
-	dLon := degreesToRadians(lon2 - lon1)
-
-	a := math.Sin(dLat/2)*math.Sin(dLat/2) +
-		math.Cos(degreesToRadians(lat1))*math.Cos(degreesToRadians(lat2))*
-			math.Sin(dLon/2)*math.Sin(dLon/2)
-
-	c := 2 * math.Atan2(math.Sqrt(a), math.Sqrt(1-a))
-	return R * c
-}
-
-func degreesToRadians(deg float64) float64 {
-	return deg * math.Pi / 180
 }

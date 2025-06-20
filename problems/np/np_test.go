@@ -3,6 +3,8 @@ package np
 import (
 	"fmt"
 	"testing"
+
+	v1 "github.com/zeusro/system/problems/np/model/v1"
 )
 
 /*
@@ -14,10 +16,10 @@ import (
 经度 -124.8°W 到 -66.9°W
 */
 func TestUScity(t *testing.T) {
-	for _, city := range usCities {
-		if !IsInContinentalUS(city.Coordinates.Latitude, city.Coordinates.Longitude) {
+	for _, city := range v1.USCities {
+		if !v1.IsInContinentalUS(city.Coordinates.Latitude, city.Coordinates.Longitude) {
 			t.Fatal(city)
 		}
 	}
-	fmt.Println(len(usCities))
+	fmt.Println(len(v1.USCities))
 }

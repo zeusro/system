@@ -1,4 +1,4 @@
-package np
+package v1
 
 import (
 	"math/rand"
@@ -7,7 +7,7 @@ import (
 
 type City struct {
 	Coordinates
-	Name     string `yaml:"name"`
+	Name     string
 	Distance float64
 }
 
@@ -17,8 +17,8 @@ type Coordinates struct {
 	Longitude float64 `yaml:"longitude"` //经度
 }
 
-// usCities 包含美国各州不同区域的至少 50 个城市
-var usCities = []City{
+// USCities 包含美国各州不同区域的至少 50 个城市
+var USCities = []City{
 	City{
 		Name: "New York",
 
@@ -475,7 +475,7 @@ var usCities = []City{
 func RandomUSCity() City {
 	// 示例城市列表（可扩展）
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	return usCities[r.Intn(len(usCities))]
+	return USCities[r.Intn(len(USCities))]
 }
 
 func IsInContinentalUS(lat, lon float64) bool {
