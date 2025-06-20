@@ -70,34 +70,6 @@ func (s *Salesman) Travel(current City) []City {
 	return s.Travel(nextCity)       // 递归调用
 }
 
-// // Travel 踏上寻找n的旅程
-// func (s *Salesman) TravelN(cityName string, n int) {
-// 	// 上一次的目的地是这一次的起点城市。0比较特殊，代表出发城市。
-// 	// 起点城市不在旅行计划中
-// 	current := s.TodoCity[cityName]
-// 	if n >= 1 {
-// 		s.Plan[n] = current
-// 	}
-// 	delete(s.TodoCity, cityName) //由于计划是单线程，不用考虑线程安全
-// 	//边界的判断条件是剩余旅行城市=0
-// 	if n == 0 {
-// 		s.Plan[0] = s.Plan[len(s.Plan)-1] // 确保最后一个城市是起点城市
-// 		return
-// 	}
-// 	var nextCity City
-// 	minDistance := math.MaxFloat64
-// 	for _, city := range s.TodoCity {
-// 		distance := local.Haversine(city.Coordinates.Latitude, city.Coordinates.Longitude, current.Coordinates.Latitude, current.Coordinates.Longitude)
-// 		if distance < minDistance {
-// 			minDistance = distance
-// 			nextCity = city
-// 		}
-// 	}
-// 	s.Plan[n].Distance = minDistance
-// 	s.KURO += minDistance                     // 累加距离
-// 	s.TravelN(nextCity.Name, len(s.TodoCity)) // 递归调用
-// }
-
 func (s *Salesman) GetK() float64 {
 	if s.IsSolvable(s.Plan) {
 		return s.KURO
