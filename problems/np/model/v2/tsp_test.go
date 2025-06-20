@@ -20,11 +20,11 @@ func TestTravelN(t *testing.T) {
 	if !s.IsSolvable(v1.USCities) {
 		t.Fatal("旅行计划不可行")
 	}
-	// start := 0
-	// for i := len(s.Plan) - 1; i > 0; i-- {
-	// 	fmt.Printf("%v:%+v\n", start, s.Plan[i])
-	// 	start++
-	// }
+	start := 0
+	for i := len(s.Plan) - 1; i > 0; i-- {
+		fmt.Printf("%v:%+v\n", start, s.Plan[i])
+		start++
+	}
 	fmt.Printf("跨越漫长的旅程（%v km），终于见到KURO\n", s.KURO)
 }
 
