@@ -27,8 +27,9 @@ func (s *YoungAndBeautiful) LearningEffect(time float64) float64 {
 	return s.ED() * time
 }
 
+// EDOptimizer ED优化器
 // 梯度下降优化器
-type GradientOptimizer struct {
+type EDOptimizer struct {
 	Subjects     []*YoungAndBeautiful
 	TotalTime    float64
 	LearningRate float64
@@ -36,7 +37,8 @@ type GradientOptimizer struct {
 }
 
 // 优化时间分配
-func (g *GradientOptimizer) Optimize() []float64 {
+// most valuable policy
+func (g *EDOptimizer) MostValuablePolicy() []float64 {
 	// 初始化随机时间分配
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	timeAlloc := make([]float64, len(g.Subjects))
@@ -98,7 +100,7 @@ func (g *GradientOptimizer) Optimize() []float64 {
 }
 
 // 计算总学习效果
-func (g *GradientOptimizer) totalLearningEffect(timeAlloc []float64) float64 {
+func (g *EDOptimizer) totalLearningEffect(timeAlloc []float64) float64 {
 	total := 0.0
 	for i, subj := range g.Subjects {
 		total += subj.LearningEffect(timeAlloc[i])
@@ -109,21 +111,19 @@ func (g *GradientOptimizer) totalLearningEffect(timeAlloc []float64) float64 {
 type Shoggoth struct {
 	Dick      struct{} // 代表他的粉丝
 	TotalDays int      // 模拟天数
-	DailyTime float64
+	DailyTime float64  // 每天学习时间(小时)
 }
 
-// 动态调整版本
+// DynamicFindGirlfriends 根据效果动态（时间）调整泡妞策略
 func (v Shoggoth) DynamicFindGirlfriends(subjects []*YoungAndBeautiful) {
 	totalDays := v.TotalDays
 	dailyTime := v.DailyTime
-	// totalDays := 7   // 模拟7天的学习
-	// dailyTime := 4.0 // 每天学习时间(小时)
 
 	for day := 1; day <= totalDays; day++ {
-		fmt.Printf("\n=== 第%d天 ===\n", day)
+		fmt.Printf("\nDAY %d\n", day)
 
 		// 创建优化器(每天重新优化)
-		optimizer := GradientOptimizer{
+		optimizer := EDOptimizer{
 			Subjects:     subjects,
 			TotalTime:    dailyTime,
 			LearningRate: 0.1,
@@ -131,18 +131,28 @@ func (v Shoggoth) DynamicFindGirlfriends(subjects []*YoungAndBeautiful) {
 		}
 
 		// 获取当天最优分配
-		todayAlloc := optimizer.Optimize()
+		todayAlloc := optimizer.MostValuablePolicy()
 
 		// 应用时间分配(更新已花费时间)
 		for i, subj := range subjects {
 			subj.TimeSpent += todayAlloc[i]
 		}
-
+		gotED := true
 		// 打印当天计划
 		fmt.Println("今日推荐学习时间:")
 		for i, subj := range subjects {
+			ed := subj.ED()
 			fmt.Printf("%s: %.2f小时 (累计已学: %.2f小时, 当前效率: %.2f)\n",
-				subj.Name, todayAlloc[i], subj.TimeSpent, subj.ED())
+				subj.Name, todayAlloc[i], subj.TimeSpent, ed)
+			//在 Go 中，float64 类型的数值计算是不精确的。
+			//即使一个看起来为 0.0 的值，实际可能是 1e-10、-1e-12 等极小数，不等于 0.00 精确值。
+			if ed > 1e-6 {
+				gotED = false
+			}
+		}
+		if gotED {
+			fmt.Println("所有妹子都不感兴趣了，打算出家当和尚。")
+			return
 		}
 
 		// 模拟效率变化(随机波动)
