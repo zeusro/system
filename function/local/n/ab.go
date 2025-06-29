@@ -11,7 +11,7 @@ type DeadMonkey struct {
 	Three         *Three // 也可以把3放在4里面，但还是算了，不差这点内存
 	Four          *Four
 	//todo:按需扩容
-	//暂时不考虑第四维度
+	//n的维度天知道
 }
 
 func NewDeadMonkeyFromEarth(l EarthLocation) *DeadMonkey {
