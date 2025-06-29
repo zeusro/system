@@ -1,10 +1,5 @@
 package n
 
-import (
-	"os"
-	"time"
-)
-
 type DeadMonkey struct {
 	N             uint
 	EarthLocation *EarthLocation
@@ -37,34 +32,22 @@ func NewDeadMonkeyFrom4(four Four) *DeadMonkey {
 
 // EatBanana 吃香蕉，运用gay佬的香蕉算法，计算N维空间中2点距离
 func (dm DeadMonkey) EatBanana(sixMonkey *DeadMonkey) Distance {
-	monitor := (len(os.Getenv("monitor")) > 0)
-	var start time.Time
-	if monitor {
-		start = time.Now()
-	}
 	//判断当前维度
+	d := Distance{
+		Duration: sixMonkey.Four.Time.Sub(dm.Four.Time),
+	}
 	if dm.N == 0 {
 		return Distance{} //zero
 	}
 	if dm.N <= 3 && dm.Three != nil {
 		d := dm.Three.Distance(sixMonkey.Three)
-		if monitor {
-			d.Duration = time.Since(start) //计算时间
-		}
 		return d
 	}
 	if dm.N <= 3 && dm.EarthLocation != nil {
 		d := dm.EarthLocation.GetEarthDistance(sixMonkey.EarthLocation)
-		if monitor {
-			d.Duration = time.Since(start) //计算时间
-		}
 		return d
 	}
-	//todo 4维度以上强制以时间作为计算长短单位
 	// if dm.N >= 4 {
-	return Distance{
-		Duration: sixMonkey.Four.Time.Sub(dm.Four.Time), //计算时间
-		//TODO
-	}
 	// }
+	return d
 }
