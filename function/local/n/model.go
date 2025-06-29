@@ -1,12 +1,15 @@
 package n
 
+import "time"
+
 // Location 位置
 type Location interface {
 	//Where are you?
 }
 
 type Distance struct {
-	DistanceUnit //单位 enum
+	Duration     time.Duration //时间是第一维度
+	DistanceUnit               //单位 enum
 	//数值 decimal
 	ValueFloat64 float64
 	//TODO 按需补充

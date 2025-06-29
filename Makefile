@@ -66,4 +66,6 @@ update-mod:
 	# type your dep
 	
 check:
+	gofmt -w .
+	go vet ./...
 	go build ./...
