@@ -3,4 +3,6 @@
 
 # One Open Operating System
 
-<img src="docs/伊織もえ.jpeg" alt="伊織もえ" width="30%">
+<a href="https://x.com/iorimoe_five" target="_blank">
+  <img src="docs/伊織もえ.jpeg" alt="伊織もえ" width="30%">
+</a>
