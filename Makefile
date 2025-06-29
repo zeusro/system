@@ -65,3 +65,5 @@ up:
 update-mod:
 	# type your dep
 	
+check:
+	go build ./...

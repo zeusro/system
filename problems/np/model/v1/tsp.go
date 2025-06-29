@@ -3,7 +3,7 @@ package v1
 import (
 	"math"
 
-	"github.com/zeusro/system/function/local"
+	"github.com/zeusro/system/function/local/n"
 )
 
 type Salesman struct {
@@ -47,9 +47,9 @@ func (s *Salesman) Travel(current City) []City {
 	// fmt.Println(current.Name)
 	s.Plan = append(s.Plan, current) // 记录当前城市到旅行计划中
 	delete(s.TodoCity, current.Name) //由于计划是单线程，不用考虑线程安全
-	n := len(s.TodoCity)
+	todo := len(s.TodoCity)
 	//边界的判断条件是剩余旅行城市=0
-	if n == 0 {
+	if todo == 0 {
 		s.Plan = append(s.Plan, s.Plan[0]) // 回到起点，形成环形
 		return s.Plan
 	}
@@ -59,7 +59,7 @@ func (s *Salesman) Travel(current City) []City {
 	// 用SQL表示就是 select citys from USA where c.Latitude between 24.5 and 49.4 and c.Longitude between -124.8 and -66.9
 	// 不过这种传统关系型数据库，查询效率不符合我的要求
 	for _, city := range s.TodoCity { //fixme：当前的数组集合类型是有缺陷的，不能一次性全部取出，导致了O(n)的算法复杂度，实际上应该是O(1)然后并发算出最小距离城市
-		distance := local.Haversine(city.Coordinates.Latitude, city.Coordinates.Longitude, current.Coordinates.Latitude, current.Coordinates.Longitude)
+		distance := n.Haversine(city.Coordinates.Latitude, city.Coordinates.Longitude, current.Coordinates.Latitude, current.Coordinates.Longitude)
 		if distance < minDistance {
 			minDistance = distance
 			nextCity = city

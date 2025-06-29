@@ -3,7 +3,7 @@ package v2
 import (
 	"math"
 
-	"github.com/zeusro/system/function/local"
+	"github.com/zeusro/system/function/local/n"
 	v1 "github.com/zeusro/system/problems/np/model/v1"
 )
 
@@ -31,29 +31,29 @@ func NewSalesman(cities []v1.City) *Salesman {
 }
 
 // Travel 踏上寻找n的旅程
-func (s *Salesman) TravelN(cityName string, n int) {
+func (s *Salesman) TravelN(cityName string, todo int) {
 	// 上一次的目的地是这一次的起点城市。0比较特殊，代表出发城市。
 	// 起点城市不在旅行计划中
 	current := s.TodoCity[cityName]
-	if n >= 1 {
-		s.Plan[n] = current
+	if todo >= 1 {
+		s.Plan[todo] = current
 	}
 	delete(s.TodoCity, cityName) //由于计划是单线程，不用考虑线程安全
 	//边界的判断条件是剩余旅行城市=0
-	if n == 0 {
+	if todo == 0 {
 		s.Plan[0] = s.Plan[len(s.Plan)-1] // 确保最后一个城市是起点城市
 		return
 	}
 	var nextCity v1.City
 	minDistance := math.MaxFloat64
 	for _, city := range s.TodoCity {
-		distance := local.Haversine(city.Latitude, city.Longitude, current.Latitude, current.Longitude)
+		distance := n.Haversine(city.Latitude, city.Longitude, current.Latitude, current.Longitude)
 		if distance < minDistance {
 			minDistance = distance
 			nextCity = city
 		}
 	}
-	s.Plan[n].Distance = minDistance
+	s.Plan[todo].Distance = minDistance
 	s.KURO += minDistance                     // 累加距离
 	s.TravelN(nextCity.Name, len(s.TodoCity)) // 递归调用
 }
