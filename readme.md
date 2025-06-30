@@ -1,5 +1,6 @@
 
-  When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training, leaves home to fight a war, discovering her full powers and true destiny.
+  When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training,
+  leaves home to fight a war, discovering her full powers and true destiny.
 
 # One Outstanding Opulent Sparkling Lady
 

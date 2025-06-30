@@ -1,9 +1,12 @@
 package n
 
+// DeadMonkey 跳出三界外 不在五行中
+// Jump out of the sky
+// Not in the N universe
 type DeadMonkey struct {
 	N             uint
 	EarthLocation *EarthLocation
-	Three         *Three // 也可以把3放在4里面，但还是算了，不差这点内存
+	Three         *Three
 	Four          *Four
 	//todo:按需扩容
 	//n的维度天知道
