@@ -1,8 +1,8 @@
 
-  One Outstanding Opulent Sparkling Lady
+  When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training, leaves home to fight a war, discovering her full powers and true destiny.
 
-# Ooosie （/ˈuː.zi/ or /ˈoʊ.zi/）
+# One Outstanding Opulent Sparkling Lady
 
-<a href="https://x.com/iorimoe_five" target="_blank">
-  <img src="docs/伊織もえ.jpeg" alt="伊織もえ" width="70%">
+<a href="https://www.imdb.com/title/tt0451279/" target="_blank">
+  <img src="docs/Wonder-Woman.webp" alt="Wonder-Woman.webp" width="70%">
 </a>
