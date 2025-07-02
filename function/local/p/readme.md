@@ -10,7 +10,7 @@ I myself will be your general, judge, and rewarder of every one of your virtues 
 
 # Sea Eye Algorithm
 
-![image](/docs/sherlock.jpg)
+![image](/docs/s.jpg)
 
 1. [v1](v1)
 1. [v2](v2)
