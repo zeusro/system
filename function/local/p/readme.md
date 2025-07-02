@@ -10,13 +10,11 @@ I myself will be your general, judge, and rewarder of every one of your virtues 
 
 # Sea Eye Algorithm
 
-[v1](v1)
-
-[v2](v2)
-
-[v3](v3)
-
 ![image](/docs/sherlock.jpg)
+
+1. [v1](v1)
+1. [v2](v2)
+1. [v3](v3)
 
 A brute force exhaustive algorithm for finding multiple fixed points in time series on n planets.
 
