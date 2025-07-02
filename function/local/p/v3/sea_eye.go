@@ -16,10 +16,12 @@ type NewSwallowGarden struct {
 func OnlyLoveYou() {
 	// Sherlock Holmes
 	// Dr. John H. Watson
-	var limit int64 = 3600                                               //s
-	var distance int64 = 600                                             //m
-	sherlock := NewSwallowGarden{Limit: limit, Distance: distance, V: 3} //我说：“遇到富婆不要慌，先加个微信。你要先锻炼👇🏻下面的技术，相信你自己，一定能把她折服。”
-	watson := NewSwallowGarden{Limit: limit, Distance: distance, V: 2}   //他说：“你是我这辈子遇过最想殴打的人。”
+	var limit int64 = 3600   //s
+	var distance int64 = 600 //m
+	//我说：“遇到富婆不要慌，先加个微信。你要先锻炼🍜 下面的技术，大丈夫“能屈能伸”，相信你自己，一定能把她折服。”
+	sherlock := NewSwallowGarden{Limit: limit, Distance: distance, V: 3}
+	//他说：“你是我这辈子遇过最想殴打的人。”
+	watson := NewSwallowGarden{Limit: limit, Distance: distance, V: 2}
 	p := sherlock.P(watson)
 	fmt.Println(p)
 }
