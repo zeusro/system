@@ -1,6 +1,9 @@
 package v3
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 // OnlyLoveYou 从前一辆自行车很慢，后座只能载一个妹子
 func OnlyLoveYou() {
@@ -15,8 +18,15 @@ func OnlyLoveYou() {
 }
 
 // LoveYouAll111 现在的大货车很强，一车能载很多人
+// 这其实是一个行星绕日模型求不动点的核心算法
 func LoveYouAll111() {
-	// TODO
+	var limit int64 = 36000  //s
+	var distance int64 = 600 //m
+	zeusro := NewSwallowGarden{Limit: limit, Distance: distance, V: 3}
+	watson := NewSwallowGarden{Limit: limit, Distance: distance, V: 2}
+	hera := NewSwallowGarden{Limit: limit, Distance: distance, V: 5}
+	np := zeusro.NP([]NewSwallowGarden{watson, hera})
+	fmt.Println(np)
 }
 
 type NewSwallowGarden struct {
@@ -45,5 +55,36 @@ func (sherlock NewSwallowGarden) P(hera NewSwallowGarden) []int64 {
 			result = append(result, time)
 		}
 	}
+	return result
+}
+
+// NP 我们的征途是星辰大海
+func (sun NewSwallowGarden) NP(stars []NewSwallowGarden) []int64 {
+	var wg sync.WaitGroup
+	timingsMap := sync.Map{}
+	result := make([]int64, 0)
+	for _, star := range stars {
+		wg.Add(1)
+		go func(s NewSwallowGarden) {
+			defer wg.Done()
+			cycle := s.Distance / s.V
+			// fixme: 算法的瓶颈在这个循环
+			for time := cycle; time < s.Limit; time += cycle {
+				existing, _ := timingsMap.LoadOrStore(time, int64(1))
+				if v, ok := existing.(int64); ok {
+					timingsMap.Store(time, v+1)
+				}
+			}
+		}(star)
+	}
+	wg.Wait()
+	timingsMap.Range(func(key, value any) bool {
+		if t, ok := key.(int64); ok {
+			if v, ojbk := value.(int64); ojbk && v == (int64(len(stars))+1) {
+				result = append(result, t)
+			}
+		}
+		return true
+	})
 	return result
 }
