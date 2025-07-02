@@ -5,15 +5,22 @@ import (
 	"sync"
 )
 
+// NewSwallowGarden 新燕花园
+type NewSwallowGarden struct {
+	Limit    int64 //时间限制，这里简化为秒单位 3600s
+	Distance int64 //环形跑道长度，这里限制为m单位
+	V        int64 //速度单位
+}
+
 // OnlyLoveYou 从前一辆自行车很慢，后座只能载一个妹子
 func OnlyLoveYou() {
 	// Sherlock Holmes
 	// Dr. John H. Watson
-	var limit int64 = 3600   //s
-	var distance int64 = 600 //m
-	zeusro := NewSwallowGarden{Limit: limit, Distance: distance, V: 3}
-	watson := NewSwallowGarden{Limit: limit, Distance: distance, V: 2}
-	p := zeusro.P(watson)
+	var limit int64 = 3600                                               //s
+	var distance int64 = 600                                             //m
+	sherlock := NewSwallowGarden{Limit: limit, Distance: distance, V: 3} //我说：“遇到富婆不要慌，先加个微信。你要先锻炼👇🏻下面的技术，相信你自己，一定能把她折服。”
+	watson := NewSwallowGarden{Limit: limit, Distance: distance, V: 2}   //他说：“你是我这辈子遇过最想殴打的人。”
+	p := sherlock.P(watson)
 	fmt.Println(p)
 }
 
@@ -27,12 +34,6 @@ func LoveYouAll111() {
 	hera := NewSwallowGarden{Limit: limit, Distance: distance, V: 5}
 	np := zeusro.NP([]NewSwallowGarden{watson, hera})
 	fmt.Println(np)
-}
-
-type NewSwallowGarden struct {
-	Limit    int64 //时间限制，这里简化为秒单位 3600s
-	Distance int64 //环形跑道长度，这里限制为m单位
-	V        int64 //速度单位
 }
 
 // NewSwallowGarden n维世界求不动点
