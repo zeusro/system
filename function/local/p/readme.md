@@ -16,6 +16,6 @@ I myself will be your general, judge, and rewarder of every one of your virtues 
 1. [v2](v2)
 1. [v3](v3)
 
-A brute force exhaustive algorithm for finding multiple fixed points in time series on n planets.
+A brute force exhaustive algorithm for finding multiple fixed points in time series in  n universe.
 
 [中文版文档](readme.zh.md)
