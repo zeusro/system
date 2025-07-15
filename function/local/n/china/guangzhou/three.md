@@ -1,3 +1,3 @@
 ![image](/docs/orange.gif)
 
-![image](/docs/coke.jpeg)
+<img src="/docs/coke.jpeg" alt="image" style="width:30%;" />
