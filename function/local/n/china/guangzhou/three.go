@@ -1,0 +1,5 @@
+package guangzhou
+
+func Coke() {
+
+}
