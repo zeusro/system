@@ -25,10 +25,10 @@
 
 ## 彩蛋
 
-[从前一辆自行车很慢，后座只能载一个妹子](rich.go#L6)
+[从前一辆自行车很慢，后座只能载一个妹子](v3/sea_eye.go#L16)
 
 <a href="https://www.youtube.com/watch?v=ACVJRLrXLwc&ab_channel=%E8%98%8B%E8%98%8B%E6%BE%8E%E6%BE%8EPINPINPONPON" target="_blank">
   <img src="/docs/sea_eye.png" alt="年轻又好看" style="max-width:700px;max-height:700px;width:50%; ">
 </a>
 
-[现在的大货车很强，一车能载很多人](rich.go#L18)
+[现在的大货车很强，一车能载很多人](v3/sea_eye.go#L31)
