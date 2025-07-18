@@ -52,7 +52,7 @@ func RandomUniqueArray(n int, min, max float64) []float64 {
 	precision := 100.0 // 对应 0.01 精度
 	maxUnique := int((high - low) * precision)
 	if n > maxUnique {
-		panic("requesting more unique numbers than the range can support at 0.01 precision")
+		// panic("requesting more unique numbers than the range can support at 0.01 precision")
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -77,7 +77,7 @@ func MaxInArray(arr []float64, min, deviation float64) float64 {
 	}
 	limit := min + deviation
 	found := false
-	var max float64
+	max := arr[0]
 	for _, v := range arr {
 		if v <= limit {
 			if !found || v > max {
@@ -87,7 +87,7 @@ func MaxInArray(arr []float64, min, deviation float64) float64 {
 		}
 	}
 	if !found {
-		panic("no values within the allowed range")
+		// panic("no values within the allowed range")
 	}
 	return max
 }
