@@ -6,16 +6,21 @@ import (
 	"time"
 )
 
-func Coke() {
+// Coke算法
+// min 批发价
+// max 最高零售价
+// near  附近商户数量
+// deviation  允许的合理偏差值
+func Coke(min, max float64, near int, deviation float64) {
 	//简化问题，以500ml可乐为例
-	var min float64 = 2.5                      //批发价
-	var max float64 = 4                        //最高零售价
-	arround := RandomUniqueArray(14, min, max) //调查获得附近500米内小商户，假设有15家
-	juan := MinInArray(arround)                //卷王
-	limit := MaxInArray(arround, juan, 0.5)    //把价格差控制在5毛以内
-	finalPrice := limit + 0.5
+	arround := RandomUniqueArray(near, min, max)  //调查获得附近500米内小商户，假设有15家
+	juan := MinInArray(arround)                   //卷王
+	limit := MaxInArray(arround, juan, deviation) //把价格差控制在5毛以内
+	finalPrice := limit + deviation
 	fmt.Printf("附近商户卖%v\n", arround)
-	fmt.Printf("卷王卖%v,我卖%v", juan, finalPrice)
+	fmt.Println("你们不让我卖，老子就非要卖！！！")
+	fmt.Printf("卷王卖%v。我卖%v。\n", juan, finalPrice)
+	fmt.Println("更少的工作时间，更高的利润率，让卷王不服不行。")
 }
 
 // RandomRange 生成在给定 min 和 max 范围内的一个新的随机上下界（保留到0.1精度）
