@@ -55,14 +55,17 @@ func (sherlock NewSwallowGarden) P(hera NewSwallowGarden) []int64 {
 	timings := make(map[int64]bool)
 	// 简化问题，时间=位移/速度
 	cycle := sherlock.Distance / sherlock.V
-	var time int64 = cycle
+	var time int64 = cycle // 皮神的大姨夫周期
+	//在总的时间限制里面，找到多个时序不动点
 	for time = cycle; time < sherlock.Limit; time += cycle {
 		timings[time] = true //周期性地回到原点
 	}
 	result := make([]int64, 0)
-	cycle = hera.Distance / hera.V
-	time = cycle
+	cycle = hera.Distance / hera.V //赫拉的大姨妈周期
+	time = cycle                   //心有灵犀一点通
+	//东航耽误人
 	for time = cycle; time < hera.Limit; time += cycle {
+		//2020 is right timing
 		if timings[time] { //命中注定的两人会相遇
 			result = append(result, time)
 		}
@@ -84,7 +87,7 @@ func (sun NewSwallowGarden) NP(stars []NewSwallowGarden) []int64 {
 			for time := cycle; time < s.Limit; time += cycle {
 				existing, _ := timingsMap.LoadOrStore(time, int64(1))
 				if v, ok := existing.(int64); ok {
-					timingsMap.Store(time, v+1)
+					timingsMap.Store(time, v+1) //在n的维度里面无人能敌
 				}
 			}
 		}(star)
@@ -92,10 +95,12 @@ func (sun NewSwallowGarden) NP(stars []NewSwallowGarden) []int64 {
 	wg.Wait()
 	timingsMap.Range(func(key, value any) bool {
 		if t, ok := key.(int64); ok {
+			//时间是检验真理的唯一标准
 			if v, ojbk := value.(int64); ojbk && v == (int64(len(stars))+1) {
 				result = append(result, t)
 			}
 		}
+		// Only time will tell you truth
 		return true
 	})
 	return result
