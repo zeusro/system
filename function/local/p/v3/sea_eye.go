@@ -13,11 +13,11 @@ type NewSwallowGarden struct {
 }
 
 // OnlyLoveYou 从前一辆自行车很慢，后座只能载一个妹子
-func OnlyLoveYou() {
+func OnlyLoveYou(limit int64, distance int64) {
 	// Sherlock Holmes
 	// Dr. John H. Watson
-	var limit int64 = 3600   //s
-	var distance int64 = 600 //m
+	// var limit int64 = 3600   //s
+	// var distance int64 = 600 //m
 	//我说：“遇到富婆不要慌，先加个微信。你要先锻炼🍜 下面的技术，大丈夫“能屈能伸”，相信你自己，一定能把她折服。”
 	sherlock := NewSwallowGarden{Limit: limit, Distance: distance, V: 3}
 	//他说：“你是我这辈子遇过最想殴打的人。”
@@ -28,14 +28,23 @@ func OnlyLoveYou() {
 
 // LoveYouAll111 现在的大货车很强，一车能载很多人
 // 这其实是一个行星绕日模型求不动点的核心算法
-func LoveYouAll111() {
-	var limit int64 = 36000  //s
-	var distance int64 = 600 //m
-	zeusro := NewSwallowGarden{Limit: limit, Distance: distance, V: 3}
-	watson := NewSwallowGarden{Limit: limit, Distance: distance, V: 2}
-	hera := NewSwallowGarden{Limit: limit, Distance: distance, V: 5}
+func LoveYouAll111(limit int64, distance int64) {
+	// var limit int64 = 36000  //s
+	// var distance int64 = 600 //m
+	zeusro := NewSwallowGarden{Limit: limit, Distance: distance, V: 127}
+	watson := NewSwallowGarden{Limit: limit, Distance: distance, V: 101}
+	hera := NewSwallowGarden{Limit: limit, Distance: distance, V: 149}
 	np := zeusro.NP([]NewSwallowGarden{watson, hera})
 	fmt.Println(np)
+}
+
+// LoveYouAllForEver 爱你（没有）天长地久（程序跑不动🤣）
+func LoveYouAllForEver(distance int64) {
+	zeusro := NewSwallowGarden{Distance: distance, V: 127}
+	watson := NewSwallowGarden{Distance: distance, V: 101}
+	hera := NewSwallowGarden{Distance: distance, V: 149}
+	_ = zeusro.JumpOutOfTheSky([]NewSwallowGarden{watson, hera})
+	// fmt.Println(np)
 }
 
 // NewSwallowGarden n维世界求不动点
@@ -48,13 +57,13 @@ func (sherlock NewSwallowGarden) P(hera NewSwallowGarden) []int64 {
 	cycle := sherlock.Distance / sherlock.V
 	var time int64 = cycle
 	for time = cycle; time < sherlock.Limit; time += cycle {
-		timings[time] = true
+		timings[time] = true //周期性地回到原点
 	}
 	result := make([]int64, 0)
 	cycle = hera.Distance / hera.V
 	time = cycle
 	for time = cycle; time < hera.Limit; time += cycle {
-		if timings[time] {
+		if timings[time] { //命中注定的两人会相遇
 			result = append(result, time)
 		}
 	}
@@ -89,5 +98,37 @@ func (sun NewSwallowGarden) NP(stars []NewSwallowGarden) []int64 {
 		}
 		return true
 	})
+	return result
+}
+
+// JumpOutOfTheSky 四海无垠天作岸 山登绝顶我为峰
+func (sun NewSwallowGarden) JumpOutOfTheSky(stars []NewSwallowGarden) []int64 {
+	var wg sync.WaitGroup
+	timingsMap := sync.Map{}
+	result := make([]int64, 0)
+	for _, star := range stars {
+		wg.Add(1)
+		go func(s NewSwallowGarden) {
+			defer wg.Done()
+			cycle := s.Distance / s.V
+			// fixme: 算法的瓶颈在这个循环
+			for time := cycle; true; time += cycle {
+				existing, _ := timingsMap.LoadOrStore(time, int64(1))
+				if v, ok := existing.(int64); ok {
+					timingsMap.Store(time, v+1)
+				}
+			}
+		}(star)
+	}
+	timingsMap.Range(func(key, value any) bool {
+		if t, ok := key.(int64); ok {
+			if v, ojbk := value.(int64); ojbk && v == (int64(len(stars))+1) {
+				result = append(result, t)
+				fmt.Printf("%d ", t)
+			}
+		}
+		return true
+	})
+	wg.Wait() //实际上永远不会结束
 	return result
 }

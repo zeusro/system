@@ -3,11 +3,15 @@ package v3
 import "testing"
 
 func TestOnlyLoveYou(t *testing.T) {
-	OnlyLoveYou()
+	OnlyLoveYou(3600, 600)
 }
 
 func TestLoveYouAll111(t *testing.T) {
-	LoveYouAll111()
+	LoveYouAll111(100000000000, 1911223)
+}
+
+func TestJumpOutOfTheSky(t *testing.T) {
+	LoveYouAllForEver(1911223)
 }
 
 // BenchmarkLoveYouAll111 用于性能测试 LoveYouAll111 的核心算法
