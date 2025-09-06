@@ -36,8 +36,9 @@ func NewDeadMonkeyFrom4(four Four) *DeadMonkey {
 // EatBanana 吃香蕉，运用gay佬的香蕉算法，计算N维空间中2点距离
 func (dm DeadMonkey) EatBanana(sixMonkey *DeadMonkey) Distance {
 	//判断当前维度
-	d := Distance{
-		Duration: sixMonkey.Four.Time.Sub(dm.Four.Time),
+	d := Distance{}
+	if sixMonkey.Four != nil {
+		d.Duration = sixMonkey.Four.Time.Sub(dm.Four.Time)
 	}
 	if dm.N == 0 {
 		return Distance{} //zero

@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// Coke算法
+// Coke 算法，纪念一下广州金闪闪
 // min 批发价
 // max 最高零售价
 // near  附近商户数量
