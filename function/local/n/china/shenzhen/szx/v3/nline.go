@@ -15,8 +15,8 @@ type NLine struct {
 	model.Line
 }
 
-func (l NLine) String() string {
-	return fmt.Sprintf("%v %s:(%f,%f)-(%f,%f)", l.t, l.actorID, l.A.X, l.A.Y, l.B.X, l.B.Y)
+func (l NLine) String(i int) string {
+	return fmt.Sprintf("%v : %s [%v] (%f,%f)-(%f,%f)", l.t, l.actorID, i, l.A.X, l.A.Y, l.B.X, l.B.Y)
 }
 
 type NLineMap struct {

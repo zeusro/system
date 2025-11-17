@@ -7,6 +7,7 @@ import (
 	"github.com/zeusro/system/function/local/n/china/shenzhen/szx/model"
 )
 
+// Journey  <Sternstunden der Menschheit>
 type Journey struct {
 	Lines  []model.Line             //N维线段（为了简化运算不引入时间）的二维线段数组表示
 	NBeans map[model.Bean]time.Time //N维对象
@@ -45,7 +46,6 @@ func (j *Journey) Validate() (bool, error) {
 }
 
 // End
-// <Sternstunden der Menschheit>
 func (j *Journey) End() string {
 	return "关于这趟旅程我还能说啥呢，总比宅在家里玩 Nintendo Switch 好多了"
 }
