@@ -61,5 +61,6 @@ func DoubleThought(n int) []NLine {
 	for k, v := range lines {
 		fmt.Printf("%v:%v\n", k, v.String())
 	}
+	fmt.Println(journey1.End())
 	return lines
 }

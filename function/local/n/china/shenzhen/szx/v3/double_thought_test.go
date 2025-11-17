@@ -11,7 +11,6 @@ import (
 // go test -run TestDoubleThought -v
 func TestDoubleThought(t *testing.T) {
 	lines := DoubleThought(50)
-	//t.Log、t.Logf 输出 只有用例 FAIL 时 才会显示
 	t.Logf("len(lines)：%v", len(lines))
 	// for _, line := range lines {
 	// 	t.Log(line.String())
@@ -29,9 +28,9 @@ func TestThought(t *testing.T) {
 	bean1 := NewBeansWithFirstPoint(p1, m)
 	now := time.Now()
 	m1 := bean1.Thought(n, now)
-	for k, v := range m1.NLine {
+	for k, v := range m1.Lines {
 		// t.Logf("%v:%v\n", v, k)
-		now = now.Add(m1.NLine[k].Distance())
+		now = now.Add(m1.Lines[k].Distance())
 		fmt.Printf("%v:%v\n", now, v)
 	}
 }

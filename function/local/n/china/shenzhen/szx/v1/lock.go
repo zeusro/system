@@ -2,12 +2,19 @@ package v1
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/zeusro/system/function/local/n/china/shenzhen/szx/model"
 )
 
-// EatBeanWithLock 通过O(n)的读写锁解题
-func EatBeanWithLock() {
+type RWLock struct {
+}
+
+// GetCost 通过O(n)的读写锁解题
+func (lock RWLock) GetCost() time.Duration {
+	start := time.Now()
+	end := time.Now()
+
 	m := map[int]model.Point{}
 	n := 50
 	for i := 0; i < n; i++ {
@@ -31,11 +38,15 @@ func EatBeanWithLock() {
 		// fmt.Println(line1.Distance())
 		line2 := model.NewLine(b[len(b)-1], p)
 		// fmt.Println(line2.Distance())
-		if line1.Distance() < line2.Distance() {
+		t1 := line1.Distance()
+		t2 := line2.Distance()
+		if t1 < t2 {
 			// a = append(a, p)
+			end = end.Add(t1)
 			alipay.Lines = append(alipay.Lines, line1)
 		} else {
 			// b = append(b, p)
+			end = end.Add(t2)
 			aliyun.Lines = append(aliyun.Lines, line2)
 		}
 	}
@@ -56,4 +67,6 @@ func EatBeanWithLock() {
 	beansB := aliyun.EatBeans(aliyunBeans)
 	fmt.Println("阿里云吃豆人：")
 	fmt.Println(beansB)
+
+	return end.Sub(start)
 }

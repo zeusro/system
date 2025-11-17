@@ -1,9 +1,11 @@
 package v1
 
 import (
+	"fmt"
 	"testing"
 )
 
-func TestDistance(t *testing.T) {
-	EatBeanWithLock()
+func TestGetCost(t *testing.T) {
+	lock := RWLock{}
+	fmt.Printf("cost: %v", lock.GetCost())
 }

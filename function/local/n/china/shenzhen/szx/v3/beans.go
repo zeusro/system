@@ -67,7 +67,6 @@ func (beans *Beans) Thought(n int, date time.Time) *Journey {
 	first, _ := beans.GetAndRemove(0)
 	journey := NewJourney(n - 1)
 	a[0] = first
-
 	// n个点只能产生n-1个线段
 	for i := 1; i < n; i++ {
 		p, contains := beans.GetAndRemove(i)
@@ -85,12 +84,10 @@ func (beans *Beans) Thought(n int, date time.Time) *Journey {
 		//重置条件，为下一轮做准备
 		a = append(a, p)
 	}
-
 	result, err := journey.Validate()
 	if !result || err != nil {
 		fmt.Println("Journey 验证失败：", err)
 		return journey
 	}
-	journey.finish = true
 	return journey
 }
