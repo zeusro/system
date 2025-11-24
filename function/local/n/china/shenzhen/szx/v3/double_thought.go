@@ -23,9 +23,9 @@ func DoubleThought(n int) []NLine {
 	bean2 := NewBeansWithFirstPoint(p2, m)
 	bean2.Name = "alipay"
 
-	now := time.Now()
-	journey1 := bean1.Thought(n, now)
-	journey2 := bean2.Thought(n, now)
+	start := time.Now()
+	journey1 := bean1.Thought(n, start)
+	journey2 := bean2.Thought(n, start)
 	//归一化合并，去掉多余的点。
 	nLines := make(map[time.Time]NLine)
 	nMap := NewNLineMap(0)
@@ -42,26 +42,27 @@ func DoubleThought(n int) []NLine {
 			nMap.Add(t2, line)
 			continue
 		}
-		if t2.After(t1) {
-			delete(journey2.NBeans, k)
-			line := NLine{t: t1, Line: k.Line, actorID: bean1.Name}
-			nLines[t1] = line
-			nMap = nMap.Add(t1, line)
-			continue
+		// if t2.After(t1) || t2.Equal(t1) {
+		if t2.Equal(t1) {
+			fmt.Printf("%v:%v 两个吃豆人同时到达%v，发生碰撞\n", t1, t2, k.Line)
 		}
-		//由于字典会自动去重，因此碰撞可以忽略
-		fmt.Printf("%v:%v 两个吃豆人同时到达%v，发生碰撞\n", t1, t2, k.Line)
+		delete(journey2.NBeans, k)
+		line := NLine{t: t1, Line: k.Line, actorID: bean1.Name}
+		nLines[t1] = line
+		nMap = nMap.Add(t1, line)
+		continue
+		// }
 	}
 	nMap.AddZero(bean1.FirstNL)
 	nMap.AddZero(bean2.FirstNL)
-	fmt.Printf("%v : n维线段总数：%d;吃豆人%v总数%v;吃豆人%v总数%v;\n", now,
+	fmt.Printf("%v : n维线段总数：%d;吃豆人%v总数%v;吃豆人%v总数%v;\n", start,
 		len(nMap.items)+2, bean1.Name, len(journey1.NBeans), bean2.Name, len(journey2.NBeans))
 	lines := nMap.All(false)
-	fmt.Printf("len(lines):%v\n", len(lines))
+	cost := nMap.GetCost(start)
+	fmt.Printf("len(lines):%v cost:%v\n", len(lines), cost)
 	for k, v := range lines {
 		fmt.Println(v.String(k))
 		// fmt.Printf("%v:%v\n", k, v.String(k))
 	}
-	fmt.Println(journey1.End())
 	return lines
 }

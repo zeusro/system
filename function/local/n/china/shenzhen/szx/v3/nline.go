@@ -41,6 +41,7 @@ func (m *NLineMap) AddZero(nline NLine) *NLineMap {
 	return m
 }
 
+// Add 添加n维线段
 func (m *NLineMap) Add(t time.Time, nline NLine) *NLineMap {
 	m.items[t] = nline
 	return m
@@ -79,4 +80,14 @@ func (m *NLineMap) All(print bool) []NLine {
 		}
 	}
 	return nlines
+}
+
+// GetCost 按照时间排序，根据最后的时间找到整体耗时
+func (m *NLineMap) GetCost(start time.Time) time.Duration {
+	keys := m.SortKeys()
+	if len(keys) == 0 {
+		return 0
+	}
+	end := keys[len(keys)-1]
+	return end.Sub(start)
 }

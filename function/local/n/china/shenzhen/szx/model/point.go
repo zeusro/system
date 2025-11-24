@@ -30,6 +30,7 @@ func (p Point) String() string {
 	return fmt.Sprintf("(%f,%f)", p.X, p.Y)
 }
 
+// Compare 二维点位的粗略比较，true表示坐标完全一致
 func (p Point) Compare(p2 Point) bool {
 	return p.X == p2.X && p.Y == p2.Y
 }

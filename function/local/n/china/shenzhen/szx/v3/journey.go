@@ -45,7 +45,7 @@ func (j *Journey) Validate() (bool, error) {
 	return true, nil
 }
 
-// End
-func (j *Journey) End() string {
-	return "关于这趟旅程我还能说啥呢，总比宅在家里玩 Nintendo Switch 好多了"
+func (j *Journey) GetCost() time.Duration {
+
+	return 0
 }
