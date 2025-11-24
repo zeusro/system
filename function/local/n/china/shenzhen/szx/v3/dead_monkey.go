@@ -38,8 +38,8 @@ type DeadMonkey struct {
 }
 
 // NewDeadMonkey
-// m money数目 2
-// n 吃豆人数量 50
+// m 作战对象
+// n 唯一资源数/算法规模
 func NewDeadMonkey(birth time.Time, m, n int) *DeadMonkey {
 	dead := DeadMonkey{
 		Birth: birth,
