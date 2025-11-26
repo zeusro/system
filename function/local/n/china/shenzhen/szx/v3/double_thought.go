@@ -42,7 +42,6 @@ func DoubleThought(n int) []NLine {
 			nMap.Add(t2, line)
 			continue
 		}
-		// if t2.After(t1) || t2.Equal(t1) {
 		if t2.Equal(t1) {
 			fmt.Printf("%v:%v 两个吃豆人同时到达%v，发生碰撞\n", t1, t2, k.Line)
 		}
@@ -51,7 +50,6 @@ func DoubleThought(n int) []NLine {
 		nLines[t1] = line
 		nMap = nMap.Add(t1, line)
 		continue
-		// }
 	}
 	nMap.AddZero(bean1.FirstNL)
 	nMap.AddZero(bean2.FirstNL)
@@ -62,7 +60,6 @@ func DoubleThought(n int) []NLine {
 	fmt.Printf("len(lines):%v cost:%v\n", len(lines), cost)
 	for k, v := range lines {
 		fmt.Println(v.String(k))
-		// fmt.Printf("%v:%v\n", k, v.String(k))
 	}
 	return lines
 }
