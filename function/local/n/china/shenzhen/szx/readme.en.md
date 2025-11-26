@@ -1,5 +1,5 @@
 
-# The N Algorithm: A Lock-Free Parallel Multiverse Solution for Accessing One-Time Resources
+# The GoldenStaff Algorithm: A Lock-Free Parallel Multiverse Solution for Accessing One-Time Resources
 
 2025-11-17
 
@@ -34,7 +34,7 @@ For example:
 - txy = 3D spacetime
 - txyz = 4D spacetime
 
-**N algorithm:**  
+**GoldenStaff algorithm:**  
 By allocating multiple memory spaces, we construct multiple parallel N‑dimensional universes.  
 Each operator/quantum moves independently inside its universe.  
 Finally, results converge by **time as the key**, yielding a lock‑free solution for multi-threaded access to one-time resources.
