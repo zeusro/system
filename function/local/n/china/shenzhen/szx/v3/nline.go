@@ -20,7 +20,7 @@ func (l NLine) String(i int) string {
 }
 
 type NLineMap struct {
-	Zero  []NLine //起点是特殊的N维空间零点,存在N个时间相同的值
+	Zero  []NLine //起点是特殊的N维空间零点,存在N个B点相同时间点不同的值
 	items map[time.Time]NLine
 }
 
