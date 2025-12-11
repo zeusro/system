@@ -11,6 +11,10 @@
 
 - [无锁并发访问受限资源的平行时空算法](function/local/n/china/shenzhen/szx)
 
+## 杭州
+
+- [把农行薅到倒闭/薅羊毛算法](function/local/n/china/hangzhou/sheep.md)
+
 ## 骑天大圣挖井空
 
 - [N维线段度量法](function/local/n/dead_monkey.go)

@@ -18,7 +18,7 @@ func (z Zeusro) Pay(deals []Deal) []Deal {
 	discount := NewDiscountPolicys(DefaultDiscountPolicys)
 	for i, deal := range deals {
 		if deal.Money > SmallMoney {
-			//时间账单策略 BillingDatePolicy
+			//账单日第二天消费策略 BillingDatePolicy
 			policy1 := NewBillingDatePolicy(z.Cards(deal.t))
 			mvp := policy1.MVP(deal)
 			best := mvp.BestCard
@@ -32,7 +32,6 @@ func (z Zeusro) Pay(deals []Deal) []Deal {
 			deals[i].policy = mvp.Name()
 		}
 	}
-	//TODO 账单日第二天消费策略 有bug
 	return deals
 }
 

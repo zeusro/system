@@ -29,4 +29,5 @@ func (d Deal) String() string {
 type Policy interface {
 	Match(d Deal) bool
 	Name() string
+	MVP(d Deal) Policy
 }
