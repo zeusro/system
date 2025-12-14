@@ -8,7 +8,7 @@ import (
 const SmallMoney float32 = 1000
 
 var DefaultDiscountPolicys = []DiscountPolicy{
-	{Money: 18, Discount: -0.3, Event: "每月返现（需要app每个月申请）", Bank: "农业银行", N: 1}, //todo 1天只能第一笔生效
+	{Money: 18, Discount: -0.3, Event: "每天第一笔返现（需要app每个月申请）", Bank: "农业银行", N: 1}, //todo 1天只能第一笔生效
 	{Money: 16, Discount: -0.01, Event: "笔笔返现（需要app点击领取）", Bank: "浦发", N: -1},
 	{Money: 1, Discount: -0.01, Event: "笔笔返现", Bank: "广发银行", N: -1}, //todo，广发很抠，降低权重
 }
