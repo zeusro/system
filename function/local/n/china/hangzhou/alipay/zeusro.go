@@ -15,7 +15,7 @@ type Zeusro struct {
 
 func (z Zeusro) Pay(deals []Deal) []Deal {
 	//follow the rule and find the best policy
-	discount := NewDiscountPolicys(DefaultDiscountPolicys)
+	discount := NewDiscountPolicys(DefaultDiscountResources)
 	for i, deal := range deals {
 		if deal.Money > SmallMoney {
 			//账单日第二天消费策略 BillingDatePolicy

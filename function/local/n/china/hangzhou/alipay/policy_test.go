@@ -20,7 +20,7 @@ func TestBillingDatePolicy(t *testing.T) {
 
 func TestDiscountPolicys(t *testing.T) {
 
-	p2 := NewDiscountPolicys(DefaultDiscountPolicys)
+	p2 := NewDiscountPolicys(DefaultDiscountResources)
 	deal := Deal{
 		t:     time.Now(),
 		Money: 16,

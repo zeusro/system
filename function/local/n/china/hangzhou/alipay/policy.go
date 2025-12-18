@@ -7,14 +7,14 @@ import (
 
 const SmallMoney float32 = 1000
 
-var DefaultDiscountPolicys = []DiscountPolicy{
-	{Money: 18, Discount: -0.3, Event: "每月返现（需要app每个月申请）", Bank: "农业银行", N: 1}, //todo 1天只能第一笔生效
+var DefaultDiscountResources = []DiscountResource{
+	{Money: 18, Discount: -0.3, Event: "每天第一笔返现（需要农业银行app每个月申请）", Bank: "农业银行", N: 1}, //todo 1天只能第一笔生效
 	{Money: 16, Discount: -0.01, Event: "笔笔返现（需要app点击领取）", Bank: "浦发", N: -1},
-	{Money: 1, Discount: -0.01, Event: "笔笔返现（需要app点击领取）", Bank: "广发银行", N: -1}, //todo，广发很抠，降低权重
+	{Money: 1, Discount: -0.01, Event: "笔笔返现", Bank: "广发银行", N: -1}, //todo，广发很抠，降低权重
 }
 
-// DiscountPolicy 基于单次小额交易折扣最大化交易策略
-type DiscountPolicy struct {
+// DiscountResource 基于单次小额交易折扣最大化交易策略
+type DiscountResource struct {
 	Money    float32 //交易门槛
 	Discount float32 //折扣
 	Event    string  //折扣名称
@@ -22,7 +22,7 @@ type DiscountPolicy struct {
 	N        int     //-1表示n次，大于0表示有限次数
 }
 
-func (r DiscountPolicy) Match(d Deal) bool {
+func (r DiscountResource) Match(d Deal) bool {
 	if r.N == 0 {
 		return false
 	}
@@ -32,35 +32,35 @@ func (r DiscountPolicy) Match(d Deal) bool {
 	return true
 }
 
-func (p DiscountPolicy) Name() string {
+func (p DiscountResource) Name() string {
 	return "小额优惠交易"
 }
 
-func (p DiscountPolicy) String() {
+func (p DiscountResource) String() {
 	fmt.Printf("%s-%s: 满%.2f减%.2f\n", p.Bank, p.Name(), p.Money, p.Discount)
 }
 
 type DiscountPolicys struct {
-	policys  []DiscountPolicy
-	Resource map[string]DiscountPolicy
+	policys  []DiscountResource
+	Resource map[string]DiscountResource
 }
 
-func NewDiscountPolicys(policys []DiscountPolicy) DiscountPolicys {
+func NewDiscountPolicys(policys []DiscountResource) DiscountPolicys {
 	rules := DiscountPolicys{policys: policys}
 	rules.Resource = rules.ToDiscountPolicyMap()
 	return rules
 }
 
-func (p DiscountPolicys) ToDiscountPolicyMap() map[string]DiscountPolicy {
-	m := make(map[string]DiscountPolicy)
+func (p DiscountPolicys) ToDiscountPolicyMap() map[string]DiscountResource {
+	m := make(map[string]DiscountResource)
 	for _, r := range p.policys {
 		m[r.Bank] = r
 	}
 	return m
 }
 
-func (p *DiscountPolicys) MVP(d Deal) DiscountPolicy {
-	var best DiscountPolicy
+func (p *DiscountPolicys) MVP(d Deal) DiscountResource {
+	var best DiscountResource
 	var maxDiscount float32 = 0
 	for _, policy := range p.Resource {
 		if !policy.Match(d) {
