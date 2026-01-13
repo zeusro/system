@@ -1,5 +1,9 @@
 package nanjing
 
-func Nyarlathotep(b bool) bool {
-	return Nyarlathotep(!b)
+import (
+	"time"
+)
+
+func Nyarlathotep(t time.Time, b bool) bool {
+	return Nyarlathotep(time.Now(), !b)
 }
