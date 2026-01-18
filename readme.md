@@ -31,6 +31,10 @@
 
 - [Sheep Algorithm](function/local/n/china/hangzhou/sheep.md)
 
+## Nanjing
+
+- [Nyarlathotep Algorithm](function/local/n/china/nanjing/nyarlathotep.go)
+
 ## Japan
 
 伊織もえ
@@ -49,6 +53,7 @@
 ## Cthulhu Mythos
 
 - [Shoggoth](function/web/shoggoth.go)
+- [Nyarlathotep](function/local/n/china/nanjing/nyarlathotep.go)
 
 ---
 
@@ -95,6 +100,10 @@
 
 - [把农行薅到倒闭/薅羊毛算法](function/local/n/china/hangzhou/sheep.md)
 
+## 南京
+
+- [Nyarlathotep 算法](function/local/n/china/nanjing/nyarlathotep.go)
+
 ## 日本
 
 ### 攻殻機動隊 SAC_2045
@@ -102,6 +111,7 @@
 - [江崎プリン/Actor](function/local/n/china/shenzhen/szx/v2/江崎プリン.go)
 - [島村孝/Double Thought](function/local/n/china/shenzhen/szx/v3/double_thought_test.go)
 
-## 克苏鲁世界
+## 工业克苏鲁世界
 
 - [分布式找女朋友算法](function/web/shoggoth.go)
+- [似是而非算法](function/local/n/china/nanjing/nyarlathotep.go)
