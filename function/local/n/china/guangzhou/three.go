@@ -18,7 +18,7 @@ func Coke(min, max float64, near int, deviation float64) {
 	limit := MaxInArray(arround, juan, deviation) //把价格差控制在5毛以内
 	finalPrice := limit + deviation
 	fmt.Printf("附近商户卖%v\n", arround)
-	fmt.Println("你们不让我卖，老子就非要卖！！！")
+	fmt.Println("你们不让我卖，老子就非要卖！你有意见你来卖！")
 	fmt.Printf("卷王卖%v。我卖%v。\n", juan, finalPrice)
 	fmt.Println("更少的工作时间，更高的利润率，让卷王不服不行。")
 }
