@@ -157,7 +157,13 @@ flowchart TB
 
 ### 3.4 后果（支付）结构
 
-策略执行产生后果 $\omega$，包括：$\Delta\text{Stress}$、$\Delta\text{Score}$、$\text{LegalRisk}$、$\text{Dropout}$、$\text{LeaveExam}$ 等。例如：PUA 施压→目标学生压力上升、行为者法规风险上升；休学退学→本人离校且退出高考池；减压安抚→目标学生压力下降。支付通过 $\bar{s}(t)$、$r(t)$ 与 $I(t)$ 间接进入领导的效用，并经由 $\text{Stress}$、$\text{InSchool}$、$\text{InExamPool}$ 影响下一期状态与其余主体的策略。
+策略执行产生后果，包括  
+$$\omega: \Delta\text{Stress}, \Delta\text{Score}, \text{LegalRisk}, \text{Dropout}, \text{LeaveExam}, \ldots$$  
+等。例如：PUA 施压→目标学生压力上升、行为者法规风险上升；休学退学→本人离校且退出高考池；减压安抚→目标学生压力下降。支付通过  
+$$\bar{s}(t),\; r(t),\; I(t)$$  
+间接进入领导的效用，并经由  
+$$\text{Stress},\; \text{InSchool},\; \text{InExamPool}$$  
+影响下一期状态与其余主体的策略。
 
 ---
 

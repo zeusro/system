@@ -157,7 +157,12 @@ flowchart TB
 
 ### 3.4 Consequence (Payoff) Structure
 
-Strategy execution yields consequences $\omega$: $\Delta\text{Stress}$, $\Delta\text{Score}$, $\text{LegalRisk}$, $\text{Dropout}$, $\text{LeaveExam}$, etc. For example: PUA pressure → target student stress up, actor legal risk up; dropout → agent leaves school and exam pool; decompress → target student stress down. Payoffs enter leadership utility indirectly via $\bar{s}(t)$, $r(t)$, and $I(t)$, and affect next-period state and other agents' strategies through $\text{Stress}$, $\text{InSchool}$, $\text{InExamPool}$.
+Strategy execution yields consequences  
+$$\omega: \Delta\text{Stress}, \Delta\text{Score}, \text{LegalRisk}, \text{Dropout}, \text{LeaveExam}, \ldots$$  
+For example: PUA pressure → target student stress up, actor legal risk up; dropout → agent leaves school and exam pool; decompress → target student stress down. Payoffs enter leadership utility indirectly via  
+$$\bar{s}(t),\; r(t),\; I(t)$$  
+and affect next-period state and other agents' strategies through  
+$$\text{Stress},\; \text{InSchool},\; \text{InExamPool}$$.
 
 ---
 
