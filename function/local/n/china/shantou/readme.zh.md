@@ -49,7 +49,9 @@
 | PUA 抵抗力 | $\text{PUAResistance}$ | 个体对 PUA 的抵抗力 |
 | 法规道德风险 | $\text{LegalMoralRisk}$ | 个体/行为触发的法规与道德追责风险 |
 
-**净 PUA 压力**：$\pi = \text{PUAExposure} \times (1 - \text{PUAResistance})$，用于驱动休学/回避等策略。
+**净 PUA 压力**：  
+$$\pi = \text{PUAExposure} \times (1 - \text{PUAResistance})$$  
+用于驱动休学/回避等策略。
 
 ### 2.3 政绩与激励的量化公式
 

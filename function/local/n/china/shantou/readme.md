@@ -49,7 +49,9 @@ Each agent carries a factor vector $\mathbf{f}$ with components in $[0,1]$ (or s
 | PUA resistance | $\text{PUAResistance}$ | Individual resistance to PUA |
 | Legal-moral risk | $\text{LegalMoralRisk}$ | Risk of legal/moral accountability for the individual or behavior |
 
-**Net PUA pressure:** $\pi = \text{PUAExposure} \times (1 - \text{PUAResistance})$, used to drive dropout/avoid strategies.
+**Net PUA pressure:**  
+$$\pi = \text{PUAExposure} \times (1 - \text{PUAResistance})$$  
+used to drive dropout/avoid strategies.
 
 ### 2.3 Performance and Incentive Formulas
 
