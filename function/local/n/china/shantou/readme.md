@@ -245,33 +245,37 @@ sequenceDiagram
 
 The sampled sequence of $I(t)$ over $t$ gives the "time–performance" curve. Performance is driven by both average score and enrollment rate; PUA attrition or reducing exam count may raise $\bar{s}$ or $r$ in the short run but trigger dropout, exam exit, and legal risk, and in the long run may reduce roster and exam-taker counts—analysis depends on parameters and random seed.
 
-#### Conceptual Time–Incentive Curve
+#### Time–Incentive Curve (first 10 steps of TestY)
+
+*Data source: first 10 days of incentive samples from `TestY` (base=2008-09-01, end=2011-07-12, randomCount=56, seed=42).*
 
 ```mermaid
 xychart-beta
-    title "Incentive I(t) over time (conceptual)"
-    x-axis "Time t" [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    title "Incentive I(t) over time (first 10 steps of TestY)"
+    x-axis "Time t (days)" [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     y-axis "I(t)" 0 --> 1
-    line [0.45, 0.52, 0.48, 0.55, 0.58, 0.54, 0.51, 0.49, 0.53, 0.56]
+    line [0.47, 0.54, 0.55, 0.61, 0.61, 0.65, 0.65, 0.67, 0.68, 0.69]
 ```
 
-*Above: example trajectory of $I(t)$; when $I(t) < 0.5$ the leader chooses "pressure down" (kick-the-cat).*
+*Above: TestY run trajectory for the first 10 days; on day 1 $I(1)\approx 0.47<0.5$ so the leader chooses "pressure down" (kick-the-cat), then performance rises and stabilizes.*
 
 ### 6.2 Strategy Grouping and Best Strategies
 
 Simulation groups students by dominant strategy (study hard, avoid, dropout, athlete bonus, cyberbullying). Typical finding: groups whose dominant strategy is "study hard" or "avoid" have better average score and retention; dropout group has zero retention and is triggered mainly under high PUA exposure and high stress; consistent with "cooperate–defect–retaliate" patterns in repeated games.
 
-#### Example Strategy Distribution (GFM Diagram)
+#### Strategy Distribution (TestY run)
+
+*Data source: `TestY` (base=2008-09-01, end=2011-07-12, randomCount=56, seed=42), students grouped by dominant strategy, 61 students total.*
 
 ```mermaid
 pie showData
-    title "Student dominant strategy (example run)"
-    "Study hard" : 45
-    "Avoid" : 25
-    "Dropout" : 10
-    "Athlete bonus" : 5
-    "Cyberbullying" : 15
+    title "Student dominant strategy (TestY run, 61 students)"
+    "Study hard" : 28
+    "Avoid" : 32
+    "Athlete bonus" : 1
 ```
+
+*In this run, no student had "Dropout" or "Cyberbullying" as dominant strategy; those slices are omitted.*
 
 ### 6.3 Policy Implications and Limitations
 
