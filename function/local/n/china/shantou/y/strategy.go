@@ -125,7 +125,7 @@ func choosePsychologistStrategy(t time.Time, a *Agent, ctx *SimContext) Strategy
 	return StrategyNone
 }
 
-// chooseSchoolLeaderStrategy 学校领导的策略：政绩（激励值）低于阈值时向下施压（踢猫），否则设计激励函数。
+// chooseSchoolLeaderStrategy 学校领导的策略：负责分配资源、安排心理老师定向辅导；政绩低于阈值时向下施压（踢猫），否则设计激励函数。
 func chooseSchoolLeaderStrategy(t time.Time, a *Agent, ctx *SimContext) Strategy {
 	if Incentive(t, ctx.TotalScore, ctx.StudentCount, ctx.ExamCount, ctx.EnrollCount) < 0.5 {
 		return StrategyPressureDown

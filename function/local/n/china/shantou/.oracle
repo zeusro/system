@@ -1,1 +1,2 @@
 @function/local/n/china/shantou/main.go  除了 @function/local/n/china/shantou/y.md  提到的典型案例，在追加一些随机的学生样本，使得整个班级的样本数量达到61。并整理得到最终的学生最佳策略
+function/local/n/china/shantou/readme.md  function/local/n/china/shantou/readme.zh.md 使用github flavor markdown，尽量让公式可视化。然后再利用数据可视化技术，为论文加一些图表

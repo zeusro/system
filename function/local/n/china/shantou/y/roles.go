@@ -15,7 +15,7 @@ const (
 	RoleStudentC13                // 学生C13：高IQ贫困
 	RoleStudent                   // 普通学生：随机样本，按因子选策略
 	RolePsychologist               // 心理老师：降压力、安抚
-	RoleSchoolLeader               // 学校领导：政绩=平均分+升学率，负责分配资源（如谁加分、谁休学退学，y.md）
+	RoleSchoolLeader               // 学校领导：政绩=平均分+升学率，负责分配资源（如谁加分、谁休学退学）、安排心理老师定向辅导学生（y.md）
 )
 
 // NumStrategies 策略枚举数量，用于 StrategyCount 长度
