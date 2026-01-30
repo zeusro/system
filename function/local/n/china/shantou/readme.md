@@ -230,7 +230,11 @@ sequenceDiagram
 
 ### 5.3 Implementation Notes
 
-- **Code layout:** `model.go` (time-series objects), `roles.go` (role/strategy enums, Agent construction), `incentive.go` ($I(t)$), `strategy.go` ($\text{ChooseStrategy}$, $\text{ApplyStrategy}$, consequence quantification), `sim.go` ($\text{SimContext}$, $\text{Run}$, $\text{LogTS}$), main entry builds agents and calls $\text{Run}$.
+- **Code layout:** `model.go` (time-series objects), `roles.go` (role/strategy enums, Agent construction), `incentive.go` ($I(t)$), `strategy.go` (  
+  $$\text{ChooseStrategy},\; \text{ApplyStrategy}$$  
+  , consequence quantification), `sim.go` (  
+  $$\text{SimContext},\; \text{Run},\; \text{LogTS}$$  
+  ), main entry builds agents and calls $\text{Run}$.
 - **Outputs:** Time-series logs (time + content), incentive samples (time → performance), final statistics (in-school count, exam count, enrollment count, average score, enrollment rate, $I(t)$), and student grouping by dominant strategy with best-strategy recommendations.
 
 ---

@@ -179,7 +179,7 @@ $$\text{Stress},\; \text{InSchool},\; \text{InExamPool}$$
 - **教师 Y**：若 $\text{LegalMoralRisk} > 0.6$ → 撒谎躲避；若上期背叛且剩余步数 $>1$ → 正常教学；若 $\bar{s} < 0.5$ 且 $N > 5$ → PUA；否则正常教学。
 - **教师 F**：若 $\text{LegalMoralRisk} > 0.5$ → 撒谎躲避；若上期背叛且剩余步数 $>1$ → 正常教学；若参考人数 $>3$ 且升学率 $<0.6$ → 减少高考参考人数；否则正常教学。
 - **教师 D**：若 $\text{LegalMoralRisk} > 0.5$ → 撒谎躲避；否则正常教学（不采取 PUA、不减少参考人数；以平均成绩最大化且不剔除学生）。
-- **学生犹大**：若 $N>4$、$\text{LegalMoralRisk}<0.5$，且（终局或上期教师背叛）→ 网络暴力；否则努力学习。
+- **学生犹大**：若 $N>4$、$\text{LegalMoralRisk} < 0.5$，且（终局或上期教师背叛）→ 网络暴力；否则努力学习。
 - **学生 P**：若净 PUA 压力 $\pi > 0.5$ 且 $\text{Stress} > 0.6$ → 休学；否则回避对抗。
 - **普通学生**：高 $\pi$ 与高压力 → 休学；上期教师背叛且剩余步数 $>2$ → 回避对抗；否则按 IQ 在努力学习/回避对抗间选择。
 - **心理老师**：若平均压力 $>0.4$ → 减压安抚。
@@ -231,7 +231,11 @@ sequenceDiagram
 
 ### 5.3 实现要点
 
-- **代码结构**：`model.go`（时序对象）、`roles.go`（角色与策略枚举、Agent 构造）、`incentive.go`（$I(t)$）、`strategy.go`（$\text{ChooseStrategy}$、$\text{ApplyStrategy}$ 及后果量化）、`sim.go`（$\text{SimContext}$、$\text{Run}$、$\text{LogTS}$）、主入口构建各角色 Agent 并调用 $\text{Run}$。
+- **代码结构**：`model.go`（时序对象）、`roles.go`（角色与策略枚举、Agent 构造）、`incentive.go`（$I(t)$）、`strategy.go`（  
+  $$\text{ChooseStrategy},\; \text{ApplyStrategy}$$  
+  及后果量化）、`sim.go`（  
+  $$\text{SimContext},\; \text{Run},\; \text{LogTS}$$  
+  ）、主入口构建各角色 Agent 并调用 $\text{Run}$。
 - **输出**：时间序列日志（时间+内容）、激励采样序列（时间→政绩）、终态统计（在校人数、参考人数、本科录取数、平均成绩、升学率、政绩），以及按主导策略分组的学生统计与最佳策略建议。
 
 ---
