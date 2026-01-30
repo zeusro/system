@@ -31,7 +31,9 @@
 
 - **第一性原理**：时间是第一维度。时序对象的时间为第一成员，时序函数的时间为第一参数。
 - **时序对象**：`Factor`（量化因子）、`Agent`（社会成员）、`SimState`（仿真状态）均以 `Birth` 或 `Current` 为第一成员。
-- **时序函数**：$t \mapsto \text{Incentive}(t,\ldots)$、$\text{ChooseStrategy}(t,\ldots)$、$\text{ApplyStrategy}(t,\ldots)$ 等均以时间 $t$ 为第一参数。
+- **时序函数**：  
+  $$t \mapsto \text{Incentive}(t,\ldots),\quad \text{ChooseStrategy}(t,\ldots),\quad \text{ApplyStrategy}(t,\ldots)$$  
+  等均以时间 $t$ 为第一参数。
 - **时序日志**：事件记录为「时间 + 内容」格式（$\text{LogTS}$），满足时间序列日志规范。
 
 ### 2.2 量化因子

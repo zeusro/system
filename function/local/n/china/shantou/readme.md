@@ -31,7 +31,9 @@ Main contributions of this paper: (1) formalizing the educational bureaucracy se
 
 - **First principle:** Time is the first dimension. Time-series objects have time as the first member; time-series functions have time as the first parameter.
 - **Time-series objects:** `Factor`, `Agent`, `SimState` all have `Birth` or `Current` as the first member.
-- **Time-series functions:** $t \mapsto \text{Incentive}(t,\ldots)$, $\text{ChooseStrategy}(t,\ldots)$, $\text{ApplyStrategy}(t,\ldots)$ all take time $t$ as the first parameter.
+- **Time-series functions:**  
+  $$t \mapsto \text{Incentive}(t,\ldots),\quad \text{ChooseStrategy}(t,\ldots),\quad \text{ApplyStrategy}(t,\ldots)$$  
+  all take time $t$ as the first parameter.
 - **Time-series logs:** Events are recorded as "time + content" ($\text{LogTS}$).
 
 ### 2.2 Quantitative Factors
