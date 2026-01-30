@@ -15,9 +15,30 @@
 
 踢貓效應（英語：Kick the cat）：也稱為踢狗效應（kick the dog）[1]，是一種隱喻，描述在組織或是家庭中位階較高的人，可能會藉由責罰位階較低的人來轉移其挫折或不滿，而位階較低的人也會以類似的方式將挫折發泄給位階更低的人，因此產生了連鎖反應。
 
+收益函数：教师以学生平均成绩和本科升学率作为收益函数；学生以个人高考成绩作为收益函数，学生最终的高考成绩，跟过往3年的成绩正相关。
+
+## 收益函数（Payoff）定义
+
+- **教师收益** \(U_{\text{teacher}}\)：以学生平均成绩 \(\bar{S}\) 和本科升学率 \(r\) 为自变量  
+  \[
+  U_{\text{teacher}} = w_{\text{avg}} \cdot \bar{S} + w_{\text{enroll}} \cdot r
+  \]  
+  实现中取 \(w_{\text{avg}}=0.6\)，\(w_{\text{enroll}}=0.4\)。政绩（领导层激励）与教师收益同构。
+
+- **学生高考成绩预测** \(G\)：与过往 3 年年末成绩正相关，近期权重更大  
+  \[
+  G = w_1 S_{t-3} + w_2 S_{t-2} + w_3 S_{t-1},\quad w_1+w_2+w_3=1,\; w_1\le w_2\le w_3
+  \]  
+  实现中取 \(w_1=0.2,\,w_2=0.3,\,w_3=0.5\)。
+
+- **学生收益** \(U_{\text{student}}\)：以个人高考成绩（预测值）为收益；未参考高考则无高考收益  
+  \[
+  U_{\text{student}} = \begin{cases} G & \text{若在高考参考池} \\ 0 & \text{否则} \end{cases}
+  \]
+
 ## 量化公式
 
-公式1：学生平均成绩=学生总成绩 / 学生人数
+公式1：学生平均成绩 = 学生总成绩 / 学生人数
 
 公式2：本科升学率 = 本科录取人数 / 参加高考人数 × 100%
 
@@ -95,13 +116,26 @@
 
 ## 时间激励函数
 
-政绩（领导层感知的激励值）定义为时间 t 的函数：
+政绩（领导层感知的激励值）与教师收益同构，定义为时间 t 的函数：
 
 ```
-Incentive(t) = 0.6 × 平均成绩 + 0.4 × 本科升学率
+Incentive(t) = TeacherPayoff(平均成绩, 本科升学率) = 0.6 × 平均成绩 + 0.4 × 本科升学率
 ```
 
-其中平均成绩与本科升学率由当前在校学生、参考人数、达线人数在 t 时刻的状态计算得到。仿真中每步对 `Incentive(t)` 采样，得到时间序列点列，可用于绘制「时间–政绩」曲线（时间轴为 x 轴）。
+其中平均成绩与本科升学率由当前在校学生、参考人数、达线人数在 t 时刻的状态计算得到。仿真中每步对 `Incentive(t)` 采样，得到时间序列点列，可用于绘制「时间–政绩」曲线（时间轴为 x 轴）。学生高考成绩预测在每年末用当前成绩更新 `ScoreHistory`（过往 3 年），用于 `GaokaoScore` 与 `StudentPayoff`。
+
+## 纳什均衡与各方最佳策略
+
+在以上收益函数与策略空间下，可得到如下均衡与推荐策略（仿真与理论一致）：
+
+| 角色 | 收益/目标 | 纳什均衡下的策略 | 最佳策略建议 |
+|------|-----------|------------------|--------------|
+| **教师** | \(U_{\text{teacher}}=\bar{S}\) 与升学率 | 平均分低且人数多时倾向 PUA/减参考人数（背叛）；法规风险高或上期已背叛则正常教学（合作） | 在重复博弈中：多数时期正常教学以维持声誉；仅在平均分明显偏低且学生数多时考虑减员，并注意法规道德风险 |
+| **学生** | \(U_{\text{student}}=G\)（与 3 年成绩正相关） | 高 IQ、低 PUA 暴露：努力学习；高 PUA 暴露且压力大：休学或回避 | 以最大化 3 年成绩为主：优先「努力学习」；高压力或高 PUA 暴露时「回避对抗」或必要时休学以保护长期收益 |
+| **心理老师** | 系统稳定（降低总压力） | 平均压力高于阈值时减压安抚，否则不行动 | 当 `AvgStress > 阈值` 时采取减压安抚，其余时期不行动 |
+| **学校领导** | 政绩 = \(U_{\text{teacher}}\) | 政绩低于阈值时向下施压（踢猫），否则设计激励 | 政绩低时向下施压；政绩高时设计激励、批准加分等资源分配 |
+
+**纳什均衡要点**：教师与学生存在重复博弈关系。教师若长期背叛（PUA/减参考人数），会触发学生报复（如网络暴力）或回避/休学，从而损害平均成绩与升学率，最终降低教师自身收益。在均衡下，教师多数时候选择正常教学，学生在无极端压力下选择努力学习，使双方在长期内都更接近各自收益最大化。心理老师与领导的行为由聚合指标（平均压力、政绩）驱动，其最佳策略为上述阈值反应。
 
 ## 仿真实验设计
 
@@ -115,12 +149,13 @@ Incentive(t) = 0.6 × 平均成绩 + 0.4 × 本科升学率
 
 | 文件 | 内容 |
 |------|------|
-| `model.go` | 时间序列对象：Factor、Event、Point、NLine；时间第一成员 |
-| `roles.go` | 角色与策略枚举；Agent 构造（Birth 第一成员） |
-| `incentive.go` | 时间激励函数 Incentive(t, ...)，时间第一参数 |
-| `strategy.go` | ChooseStrategy(t, ...)、ApplyStrategy(t, ...) 及后果量化 |
-| `sim.go` | SimContext、SimState、UpdateContext、Run；时间序列日志 LogTS |
-| `main.go` | 各角色 Agent 初始化与 Run 调用，输出日志与激励采样 |
+| `model.go` | 时间序列对象：Factor、Event、Point、NLine；时间第一成员（Birth/T） |
+| `roles.go` | 角色 Role 与策略 Strategy 枚举；Agent 构造（Birth 第一成员）、NewAgent；Agent 含 Factor、InSchool、InExamPool、Score、ScoreHistory、Stress、LegalRisk、StrategyCount、LastStrategy |
+| `incentive.go` | IncentiveParams（时间第一成员）；时间激励函数 Incentive(t, ...)、IncentiveAt；教师收益 TeacherPayoff(平均成绩, 升学率)；高考成绩预测 GaokaoScore(ScoreHistory)；学生收益 StudentPayoff(GaokaoScore, InExamPool) |
+| `strategy.go` | ChooseStrategy(t, agent, ctx) 按角色分派；各角色策略函数（教师Y/F、犹大、黑曼巴、P、Y、C13、普通学生、心理老师、领导）；Consequence 后果结构；ApplyStrategy(t, strategy, agent, ctx, rng) 及后果量化 |
+| `sim.go` | SimContext（聚合状态含 StepsRemaining、LastRoundTeacherDefection）；SimState（Birth、Current、Agents、Events、Points、Duration）；LogTS、UpdateContext、Run（步进、每年末更新 ScoreHistory、激励采样、重复博弈两阶段选策略与施加后果）；pickStudentTarget |
+| `y.go` | 主仿真入口 Y(base, end, randomCount, seed)；newNamedAgents 构造教师与命名学生；输出时间序列日志、激励采样、终态统计、收益函数采样、学生策略分组统计、C13 建议 |
+| `y_test.go` | TestY 完整仿真（可 -short 跳过）；TestY_shortParams、TestY_shortRun 短仿真与 Run 单元测试 |
 
 ## 参考
 

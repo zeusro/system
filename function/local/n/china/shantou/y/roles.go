@@ -114,6 +114,7 @@ type Agent struct {
 	InSchool    bool    // 是否在校
 	InExamPool  bool    // 是否在高考参考池
 	Score       float64 // 当前成绩
+	ScoreHistory [3]float64 // 过往3年年末成绩（0=最早年，2=最近年），用于高考成绩预测
 	Stress      float64 // 心理压力 0~1
 	LegalRisk   float64 // 当前行为导致的法规道德风险累积
 

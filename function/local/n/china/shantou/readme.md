@@ -69,7 +69,9 @@ $$
 I(t) = 0.6 \cdot \bar{s}(t) + 0.4 \cdot r(t)
 $$
 
-where $\bar{s}(t)$ and $r(t)$ are computed from in-school count, exam-taker count, and enrollment count at time $t$.
+where $\bar{s}(t)$ and $r(t)$ are computed from in-school count, exam-taker count, and enrollment count at time $t$. Leadership incentive is isomorphic to teacher payoff: $I(t) = U_{\text{teacher}}(\bar{s}(t), r(t))$.
+
+**Student payoff:** A student's payoff is their predicted gaokao score when in the exam pool, and zero otherwise. Predicted gaokao score is $G = w_1 S_{t-3} + w_2 S_{t-2} + w_3 S_{t-1}$ with $w_1=0.2$, $w_2=0.3$, $w_3=0.5$ (recent years weighted higher); see `GaokaoScore` and `StudentPayoff` in `incentive.go`.
 
 #### Incentive Formula Flow (GFM Diagram)
 

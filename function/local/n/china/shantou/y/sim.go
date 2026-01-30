@@ -104,8 +104,12 @@ func UpdateContext(now time.Time, agents []Agent) SimContext {
 	}
 }
 
+// StepsPerYear 仿真中 1 年对应的步数（1 步 = 1 天）
+const StepsPerYear = 365
+
 // Run 运行时间步进仿真；步长 step，步数 steps。
 // 重复博弈：每步先全体选策略（基于剩余步数及上期背叛），再统一施加后果，避免顺序依赖。
+// 每年末更新学生 ScoreHistory，用于高考成绩预测（与过往3年成绩正相关）。
 func Run(birth time.Time, agents []Agent, step time.Duration, steps int, seed int64) SimState {
 	rng := rand.New(rand.NewSource(seed))
 	state := SimState{Birth: birth, Current: birth, Agents: agents, Duration: step * time.Duration(steps)}
@@ -118,6 +122,19 @@ func Run(birth time.Time, agents []Agent, step time.Duration, steps int, seed in
 		ctx := UpdateContext(now, state.Agents)
 		ctx.StepsRemaining = steps - i
 		ctx.LastRoundTeacherDefection = lastRoundTeacherDefection
+
+		// 每年末更新学生过往3年成绩（用于 GaokaoScore 与 StudentPayoff）
+		if i > 0 && i%StepsPerYear == 0 {
+			for j := range state.Agents {
+				a := &state.Agents[j]
+				if !isStudent(a.Role) {
+					continue
+				}
+				a.ScoreHistory[0] = a.ScoreHistory[1]
+				a.ScoreHistory[1] = a.ScoreHistory[2]
+				a.ScoreHistory[2] = a.Score
+			}
+		}
 
 		// 采样激励函数（时间序列可视化用）
 		inc := Incentive(now, ctx.TotalScore, ctx.StudentCount, ctx.ExamCount, ctx.EnrollCount)

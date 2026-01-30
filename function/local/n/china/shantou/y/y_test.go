@@ -5,9 +5,12 @@ import (
 	"time"
 )
 
-// TestY 调用 Y(base, end, randomCount, seed) 确保主仿真流程不 panic，输出到 stdout。
-// 完整仿真步数较多，若需快速测试可加 -short 跳过或单独跑短仿真。
-// go test  -v -test.fullpath=true -timeout 30s -run ^TestY$ github.com/zeusro/system/function/local/n/china/shantou/y
+/*
+	TestY 调用 Y(base, end, randomCount, seed) 确保主仿真流程不 panic，输出到 stdout。
+
+完整仿真步数较多，若需快速测试可加 -short 跳过或单独跑短仿真。
+go test  -v -test.fullpath=true -timeout 30s -run ^TestY$ github.com/zeusro/system/function/local/n/china/shantou/y
+*/
 func TestY(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping full Y() in short mode")
@@ -41,6 +44,7 @@ func TestY_shortRun(t *testing.T) {
 		}),
 	}
 	agents[1].Score = 0.5
+	agents[1].ScoreHistory = [3]float64{0.5, 0.5, 0.5}
 
 	step := 24 * time.Hour
 	steps := 3

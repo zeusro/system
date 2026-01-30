@@ -65,6 +65,9 @@ func Y(base, end time.Time, randomCount int, seed int64) {
 	for i := range named {
 		if score, ok := initialScoreByRole[named[i].Role]; ok {
 			named[i].Score = score
+			if isStudent(named[i].Role) {
+				named[i].ScoreHistory = [3]float64{score, score, score}
+			}
 		}
 		agents = append(agents, named[i])
 	}
@@ -82,6 +85,7 @@ func Y(base, end time.Time, randomCount int, seed int64) {
 		}
 		a := NewAgent(base, fmt.Sprintf("student_%02d", i+1), RoleStudent, f)
 		a.Score = 0.3 + rng.Float64()*0.5
+		a.ScoreHistory = [3]float64{a.Score, a.Score, a.Score}
 		agents = append(agents, a)
 	}
 
@@ -126,6 +130,21 @@ func Y(base, end time.Time, randomCount int, seed int64) {
 	fmt.Println("\n=== 仿真结束状态 ===")
 	fmt.Printf("在校学生数: %d  参考高考数: %d  本科录取数: %d\n", ctx.StudentCount, ctx.ExamCount, ctx.EnrollCount)
 	fmt.Printf("平均成绩: %.4f  本科升学率: %.2f%%  政绩(激励值): %.4f\n", ctx.AvgScore, ctx.EnrollRate*100, Incentive(state.Current, ctx.TotalScore, ctx.StudentCount, ctx.ExamCount, ctx.EnrollCount))
+
+	// 收益函数：教师以平均成绩+升学率为收益；学生以个人高考成绩（与过往3年正相关）为收益
+	fmt.Println("\n=== 收益函数采样 ===")
+	teacherPayoff := TeacherPayoff(ctx.AvgScore, ctx.EnrollRate)
+	fmt.Printf("教师收益 U_teacher = TeacherPayoff(平均成绩, 本科升学率) = %.4f\n", teacherPayoff)
+	fmt.Println("学生收益 U_student = StudentPayoff(GaokaoScore(过往3年成绩), 是否参考高考)：")
+	for i := range state.Agents {
+		a := &state.Agents[i]
+		if !isStudent(a.Role) {
+			continue
+		}
+		gaokao := GaokaoScore(a.ScoreHistory)
+		payoff := StudentPayoff(gaokao, a.InExamPool)
+		fmt.Printf("  %s: GaokaoScore=%.4f  InExamPool=%v  U_student=%.4f\n", a.ID, gaokao, a.InExamPool, payoff)
+	}
 
 	// 学生最佳策略：按主导策略分组统计，得到最终推荐
 	printStudentBestStrategy(&state, base, end, randomCount)
