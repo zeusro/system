@@ -108,6 +108,7 @@ flowchart LR
 | :--- | :-------------- | :------------ |
 | Teacher Y | Formula 1 (avg score) | Can reduce denominator (PUA attrition), evade scrutiny (lie-and-evade) |
 | Teacher F | Formula 1 + 2 | Can reduce exam-taker count, lie-and-evade |
+| Teacher D | Formula 1 + 2 | Maximizes avg score; no student-removal (no PUA, no reduce exam); lie-and-evade when risk high, else normal teach |
 | Student Judas | Aligns with Teacher F | Affluent middle-class, can use cyberbullying to reduce numbers |
 | Student Black Mamba | Wealth | Does not sit exam; strategy set empty |
 | Student P | Low IQ, high PUA exposure | Dropout as passive resistance |
@@ -128,7 +129,7 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph roles["Roles (Players)"]
-        T["Teachers Y, F"]
+        T["Teachers Y, F, D"]
         St["Students Judas, P, Y, C13, …"]
         Ps["Psychologist"]
         L["School Leader"]
@@ -167,6 +168,7 @@ Strategy execution yields consequences $\omega$: $\Delta\text{Stress}$, $\Delta\
 
 - **Teacher Y:** If $\text{LegalMoralRisk} > 0.6$ → lie-and-evade; if last-round defection and steps remaining $> 1$ → normal teach; if $\bar{s} < 0.5$ and $N > 5$ → PUA; else normal teach.
 - **Teacher F:** If $\text{LegalMoralRisk} > 0.5$ → lie-and-evade; if last-round defection and steps remaining $> 1$ → normal teach; if exam count $> 3$ and enrollment rate $< 0.6$ → reduce exam count; else normal teach.
+- **Teacher D:** If $\text{LegalMoralRisk} > 0.5$ → lie-and-evade; else normal teach (no PUA, no reduce exam count; maximizes avg score without student-removal).
 - **Student Judas:** If $N > 4$, $\text{LegalMoralRisk} < 0.5$, and (last period or last-round teacher defection) → cyberbullying; else study hard.
 - **Student P:** If net PUA pressure $\pi > 0.5$ and $\text{Stress} > 0.6$ → dropout; else avoid.
 - **Generic student:** High $\pi$ and high stress → dropout; last-round teacher defection and steps remaining $> 2$ → avoid; else choose study hard / avoid by IQ.

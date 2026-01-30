@@ -16,8 +16,9 @@ type IncentiveParams struct {
 	DecompressFactor  float64 // 心理老师减压系数
 }
 
-// Incentive 时间激励函数：时间必须为第一参数
-// 输入当前时刻与系统状态，输出领导层感知的“政绩”标量
+// Incentive 时间激励函数：时间必须为第一参数（时序函数规范）。
+// 输入当前时刻与系统状态（总成绩、在校人数、参考人数、达线人数），输出领导层感知的政绩标量。
+// 实现：先按公式1算平均分（totalScore/studentCount），按公式2算升学率（examCount>0 时为 enrollCount/examCount，否则为 0），再调用 TeacherPayoff 得到政绩。
 func Incentive(t time.Time, totalScore float64, studentCount int, examCount int, enrollCount int) float64 {
 	if studentCount == 0 {
 		return 0
@@ -30,27 +31,27 @@ func Incentive(t time.Time, totalScore float64, studentCount int, examCount int,
 	return TeacherPayoff(avgScore, enrollRate)
 }
 
-// IncentiveAt 与 Incentive 等价，强调时间第一参数（时间序列函数规范）
+// IncentiveAt 与 Incentive 等价，仅强调时间第一参数的命名（时间序列函数规范）。
 func IncentiveAt(t time.Time, totalScore float64, studentCount int, examCount int, enrollCount int) float64 {
 	return Incentive(t, totalScore, studentCount, examCount, enrollCount)
 }
 
 // ========== 收益函数（Payoff） ==========
 
-// TeacherPayoff 教师收益函数：以学生平均成绩和本科升学率为自变量
-// U_teacher = w_avg × 平均成绩 + w_enroll × 本科升学率
+// TeacherPayoff 教师收益函数：以学生平均成绩和本科升学率为自变量。
+// 公式：U_teacher = w_avg×平均成绩 + w_enroll×本科升学率，实现中 w_avg=0.6、w_enroll=0.4；政绩与教师收益同构。
 func TeacherPayoff(avgScore, enrollRate float64) float64 {
 	return 0.6*avgScore + 0.4*enrollRate
 }
 
-// GaokaoScore 学生高考成绩预测：与过往3年年末成绩正相关，近期权重更大
-// 公式：GaokaoScore = w1×S_{t-3} + w2×S_{t-2} + w3×S_{t-1}，w1+w2+w3=1，w1≤w2≤w3
+// GaokaoScore 学生高考成绩预测：与过往 3 年年末成绩正相关，近期权重更大。
+// 公式：G = w1×S_{t-3} + w2×S_{t-2} + w3×S_{t-1}，w1+w2+w3=1；实现中 w1=0.2、w2=0.3、w3=0.5。
 func GaokaoScore(scoreHistory [3]float64) float64 {
 	const w1, w2, w3 = 0.2, 0.3, 0.5
 	return w1*scoreHistory[0] + w2*scoreHistory[1] + w3*scoreHistory[2]
 }
 
-// StudentPayoff 学生收益函数：以个人高考成绩（预测值）作为收益；未参考高考则无高考收益
+// StudentPayoff 学生收益函数：以个人高考成绩（预测值 GaokaoScore）作为收益；未在高考参考池则收益为 0。
 func StudentPayoff(gaokaoScore float64, inExamPool bool) float64 {
 	if !inExamPool {
 		return 0

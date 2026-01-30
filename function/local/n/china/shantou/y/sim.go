@@ -32,10 +32,12 @@ type SimState struct {
 	Duration time.Duration
 }
 
+// isStudent 判断角色是否为任一类学生（犹大、黑曼巴、P、Y、C13、普通学生），用于统计与后果施加。
 func isStudent(r Role) bool {
 	return r == RoleStudentJudas || r == RoleStudentBlackMamba || r == RoleStudentP || r == RoleStudentY || r == RoleStudentC13 || r == RoleStudent
 }
 
+// clampAgentState 将 Agent 的 Score、Stress 裁剪到 [0,1]，防止仿真中溢出。
 func clampAgentState(a *Agent) {
 	if a.Score > 1 {
 		a.Score = 1
@@ -51,13 +53,16 @@ func clampAgentState(a *Agent) {
 	}
 }
 
-// LogTS 时间序列日志：打印/记录必须为「时间+内容」格式
+// LogTS 构造时间序列日志事件：内容为「时间(RFC3339) + 格式化内容」，满足时间序列日志规范。
 func LogTS(t time.Time, format string, args ...interface{}) Event {
 	content := fmt.Sprintf(format, args...)
 	return Event{T: t, S: t.Format(time.RFC3339) + " " + content}
 }
 
-// UpdateContext 根据当前 Agent 列表更新 SimContext
+// UpdateContext 根据当前 Agent 列表计算系统聚合状态，填充 SimContext。
+// 实现：遍历 agents，排除领导、心理老师、教师（Y/F/D）；仅统计 InSchool 的学生，累加成绩与压力，
+// 统计在考池人数与达线人数（Score>=0.6 视为达线）；计算平均分、升学率、平均压力填入 SimContext。
+// 教师与领导不参与学生数/成绩聚合，故不改变 TotalScore、StudentCount 等。
 func UpdateContext(now time.Time, agents []Agent) SimContext {
 	var totalScore float64
 	var totalStress float64
@@ -67,7 +72,7 @@ func UpdateContext(now time.Time, agents []Agent) SimContext {
 		if a.Role == RoleSchoolLeader || a.Role == RolePsychologist {
 			continue
 		}
-		if a.Role == RoleTeacherY || a.Role == RoleTeacherF {
+		if a.Role == RoleTeacherY || a.Role == RoleTeacherF || a.Role == RoleTeacherD {
 			continue
 		}
 		if !a.InSchool {
@@ -107,9 +112,17 @@ func UpdateContext(now time.Time, agents []Agent) SimContext {
 // StepsPerYear 仿真中 1 年对应的步数（1 步 = 1 天）
 const StepsPerYear = 365
 
-// Run 运行时间步进仿真；步长 step，步数 steps。
-// 重复博弈：每步先全体选策略（基于剩余步数及上期背叛），再统一施加后果，避免顺序依赖。
-// 每年末更新学生 ScoreHistory，用于高考成绩预测（与过往3年成绩正相关）。
+// Run 运行时间步进仿真；步长 step，步数 steps；返回终态 SimState（含事件、激励采样点）。
+//
+// 实现过程：
+// （1）按步长循环：每步更新 state.Current、调用 UpdateContext 得到 ctx，并写入 StepsRemaining、LastRoundTeacherDefection。
+// （2）每年末（i>0 且 i%StepsPerYear==0）滚动更新所有学生的 ScoreHistory（左移一年，最近年写入当前 Score）。
+// （3）每步采样 Incentive(now,...) 得到 (t,I(t)) 追加到 state.Points。
+// （4）阶段一：全体在册成员（除黑曼巴）同时选策略，写入 chosen[j]；再判断本步领导是否批准加分（领导选「设计激励」即批准）。
+// （5）阶段二：按顺序施加后果——对每个 Agent 调用 ApplyStrategy 得到后果，写回 LegalRisk、LastStrategy、StrategyCount；
+// 若策略为 PUA 或减少参考人数则置 lastRoundTeacherDefection=true；休学/退学写回 InSchool、InExamPool；学生加分/努力学习/回避写回 Score、Stress；
+// 减压作用于 pickStudentTarget 选出的随机学生；PUA/网络暴力/向下施压/减少参考人数作用于随机目标学生（压力与 LeaveExam）。
+// （6）返回 state，含 Birth、Current、Agents、Events、Points、Duration。
 func Run(birth time.Time, agents []Agent, step time.Duration, steps int, seed int64) SimState {
 	rng := rand.New(rand.NewSource(seed))
 	state := SimState{Birth: birth, Current: birth, Agents: agents, Duration: step * time.Duration(steps)}
@@ -228,6 +241,8 @@ func Run(birth time.Time, agents []Agent, step time.Duration, steps int, seed in
 	return state
 }
 
+// pickStudentTarget 从 agents 中选出所有在校且角色为学生的下标，随机返回其一；若无学生则返回 -1。
+// 用于 PUA、减压、网络暴力、向下施压、减少参考人数等策略选择施加目标。
 func pickStudentTarget(agents *[]Agent, from Role, rng *rand.Rand) int {
 	var candidates []int
 	for i := range *agents {

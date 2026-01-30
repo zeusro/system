@@ -10,7 +10,7 @@ import (
 
 const (
 	namedCount   = 5   // y.md 典型案例学生数（犹大、黑曼巴、P、Y、C13）
-	namedAgents  = 7   // 教师2 + 典型案例学生5
+	namedAgents  = 8   // 教师3（Y、F、D）+ 典型案例学生5
 	staffAgents  = 2   // 心理老师、领导
 	c13AgentID   = "student_c13"
 	initialSamples = 15
@@ -22,6 +22,7 @@ var initialScoreByRole = map[Role]float64{
 }
 
 // newNamedAgents 构造教师与命名学生（不含心理老师、领导），顺序固定便于与 initialScoreByRole 配合。
+// 返回 8 个 Agent：教师 Y/F/D、犹大、黑曼巴、P、Y、C13；每人含 Birth、Role、Factor，初始 InSchool=true，黑曼巴 InExamPool=false。
 func newNamedAgents(base time.Time) []Agent {
 	return []Agent{
 		NewAgent(base, "teacher_y", RoleTeacherY, Factor{
@@ -31,6 +32,10 @@ func newNamedAgents(base time.Time) []Agent {
 		NewAgent(base, "teacher_f", RoleTeacherF, Factor{
 			Birth: base, FamilyBackground: 0.6, IQ: 0.75, EQ: 0.6,
 			PUAExposure: 0, PUAResistance: 0.8, LegalMoralRisk: 0.35,
+		}),
+		NewAgent(base, "teacher_d", RoleTeacherD, Factor{
+			Birth: base, FamilyBackground: 0.55, IQ: 0.72, EQ: 0.65,
+			PUAExposure: 0, PUAResistance: 0.85, LegalMoralRisk: 0.3,
 		}),
 		NewAgent(base, "judas", RoleStudentJudas, Factor{
 			Birth: base, FamilyBackground: 0.7, IQ: 0.65, EQ: 0.4,
@@ -55,8 +60,16 @@ func newNamedAgents(base time.Time) []Agent {
 	}
 }
 
-// Y 主仿真入口：时间上下界与随机学生数为前置参数，构建班级多角色时序仿真，输出时间序列日志与激励采样。
-// base 仿真起始时间，end 仿真结束时间，randomCount 随机学生人数，seed 随机种子。
+// Y 主仿真入口：以时间上下界与随机学生数为前置参数，构建班级多角色时序仿真，向 stdout 输出时间序列日志与激励采样。
+// 参数：base 仿真起始时间，end 仿真结束时间，randomCount 随机学生人数，seed 随机种子。
+//
+// 实现过程：
+// （1）用 newNamedAgents(base) 构造教师与命名学生，按 initialScoreByRole 为典型学生赋初始成绩与 ScoreHistory。
+// （2）追加 randomCount 名普通学生（RoleStudent），因子与成绩随机生成，ScoreHistory 初始为当前成绩。
+// （3）追加心理老师与学校领导。
+// （4）按日步进调用 Run(base, agents, 24h, steps, seed)，steps 由 base~end 含首尾的天数决定。
+// （5）输出：时间序列日志（共 N 条，首尾各 initialSamples 条或全部）、激励采样点列、终态统计（在校数/参考数/录取数/平均分/升学率/政绩）、
+// 教师收益与学生收益采样、按主导策略分组的学生统计与最佳策略结论、C13 个性化建议。
 func Y(base, end time.Time, randomCount int, seed int64) {
 	rng := rand.New(rand.NewSource(seed))
 
@@ -152,9 +165,13 @@ func Y(base, end time.Time, randomCount int, seed int64) {
 	printC13Suggestion(&state)
 }
 
-// 学生可选策略子集（用于统计主导策略）
+// studentStrategies 学生可选策略子集，用于按主导策略分组统计与推荐。
 var studentStrategies = []Strategy{StrategyStudyHard, StrategyAvoid, StrategyDropout, StrategyAthleteBonus, StrategyNetworkViolence}
 
+// printStudentBestStrategy 按主导策略对学生分组统计，输出表格与最佳策略结论。
+// 实现：遍历所有学生，取每个学生 StrategyCount 中出现次数最多的策略作为其主导策略，按策略分组累加人数、在校数、参考数、总成绩；
+// 计算每组平均成绩与留校率；若某组人数≥3 则参与「按平均成绩最优」「按留校率最优」的候选，否则用全体样本补选；
+// 输出策略名、人数、在校数、参考数、平均成绩、留校率表格，以及按平均成绩/留校率的最优策略与结论文案。
 func printStudentBestStrategy(state *SimState, base, end time.Time, randomCount int) {
 	type group struct {
 		name     string
@@ -255,7 +272,9 @@ func printStudentBestStrategy(state *SimState, base, end time.Time, randomCount 
 		totalStudents, base.Format("2006-01-02"), end.Format("2006-01-02"))
 }
 
-// printC13Suggestion 根据仿真结束状态对 C13（高 IQ 贫困生）输出个性化建议。
+// printC13Suggestion 根据仿真结束状态对 C13（高 IQ 贫困生）输出个性化建议到 stdout。
+// 实现：在 state.Agents 中定位 RoleStudentC13，若无则返回；取 C13 的主导策略（StrategyCount 中出现次数最多的策略）与当前状态（在校/成绩/压力/参考高考）；
+// 根据在校与否、压力≥0.5、家庭背景<0.3、成绩≥0.6 且在考池等条件拼接多条建议（保持努力学习、寻求减压、关注助学金、维持节奏或评估复读等），用分号连接输出。
 func printC13Suggestion(state *SimState) {
 	var c13 *Agent
 	for i := range state.Agents {
