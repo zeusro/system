@@ -9,16 +9,12 @@ import (
 )
 
 const (
-	classSize   = 61   // 班级学生总数
-	namedCount  = 5    // y.md 典型案例学生数（犹大、黑曼巴、P、Y、C13）
-	randomCount = 56   // 随机学生样本数
-	seed        = 42
+	namedCount = 5 // y.md 典型案例学生数（犹大、黑曼巴、P、Y、C13）
 )
 
-func main() {
-	loc := time.FixedZone("CST", 8*3600) // 东八区
-	base := time.Date(2008, 9, 1, 0, 0, 0, 0, loc)
-	end := time.Date(2011, 7, 12, 0, 0, 0, 0, loc)
+// Y 主仿真入口：时间上下界与随机学生数为前置参数，构建班级多角色时序仿真，输出时间序列日志与激励采样。
+// base 仿真起始时间，end 仿真结束时间，randomCount 随机学生人数，seed 随机种子。
+func Y(base, end time.Time, randomCount int, seed int64) {
 	rng := rand.New(rand.NewSource(seed))
 
 	// 教师、典型案例学生、心理老师、领导
@@ -55,7 +51,7 @@ func main() {
 	// 典型案例初始成绩差异化
 	agents[2].Score, agents[4].Score, agents[5].Score, agents[6].Score = 0.55, 0.35, 0.52, 0.88
 
-	// 追加 56 名随机学生，班级共 61 人
+	// 追加 randomCount 名随机学生
 	for i := 0; i < randomCount; i++ {
 		f := Factor{
 			Birth:            base,
@@ -83,7 +79,7 @@ func main() {
 	)
 
 	step := 24 * time.Hour
-	steps := int(end.Sub(base).Hours()/24) + 1 // 2008-09-01 ~ 2011-07-12 含首尾
+	steps := int(end.Sub(base).Hours()/24) + 1 // base~end 含首尾
 	state := Run(base, agents, step, steps, seed)
 
 	// 时间序列日志：仅输出条数与首尾样本
@@ -115,13 +111,13 @@ func main() {
 	fmt.Printf("平均成绩: %.4f  本科升学率: %.2f%%  政绩(激励值): %.4f\n", ctx.AvgScore, ctx.EnrollRate*100, Incentive(state.Current, ctx.TotalScore, ctx.StudentCount, ctx.ExamCount, ctx.EnrollCount))
 
 	// 学生最佳策略：按主导策略分组统计，得到最终推荐
-	printStudentBestStrategy(&state)
+	printStudentBestStrategy(&state, base, end, randomCount)
 }
 
 // 学生可选策略子集（用于统计主导策略）
 var studentStrategies = []Strategy{StrategyStudyHard, StrategyAvoid, StrategyDropout, StrategyAthleteBonus, StrategyNetworkViolence}
 
-func printStudentBestStrategy(state *SimState) {
+func printStudentBestStrategy(state *SimState, base, end time.Time, randomCount int) {
 	type group struct {
 		name     string
 		count    int
@@ -175,19 +171,48 @@ func printStudentBestStrategy(state *SimState) {
 		}
 		avgScore := g.sumScore / float64(g.count)
 		stayRate := float64(g.inSchool) / float64(g.count)
-		if avgScore > bestScore && g.count >= 3 {
-			bestScore = avgScore
-			bestByScore = s
-		}
-		if stayRate > bestStayRate && g.count >= 3 {
-			bestStayRate = stayRate
-			bestByStay = s
+		if g.count >= 3 {
+			if avgScore > bestScore {
+				bestScore = avgScore
+				bestByScore = s
+			}
+			if stayRate > bestStayRate {
+				bestStayRate = stayRate
+				bestByStay = s
+			}
 		}
 		fmt.Printf("%-14s %6d %10d %10d %10.4f %7.1f%%\n", g.name, g.count, g.inSchool, g.inExam, avgScore, stayRate*100)
+	}
+	// 若无任一策略组人数≥3，则按全体样本取最优，避免 bestScore/bestStayRate 仍为 -1
+	if bestScore < 0 {
+		for _, s := range studentStrategies {
+			g := byStrategy[s]
+			if g.count > 0 {
+				avg := g.sumScore / float64(g.count)
+				if avg > bestScore {
+					bestScore = avg
+					bestByScore = s
+				}
+			}
+		}
+	}
+	if bestStayRate < 0 {
+		for _, s := range studentStrategies {
+			g := byStrategy[s]
+			if g.count > 0 {
+				rate := float64(g.inSchool) / float64(g.count)
+				if rate > bestStayRate {
+					bestStayRate = rate
+					bestByStay = s
+				}
+			}
+		}
 	}
 
 	fmt.Println("\n--- 学生最佳策略（仿真结果整理） ---")
 	fmt.Printf("按平均成绩：以「%s」为主导策略的学生组平均成绩最高（%.4f）。\n", bestByScore.String(), bestScore)
 	fmt.Printf("按留校率：以「%s」为主导策略的学生组留校率最高（%.1f%%）。\n", bestByStay.String(), bestStayRate*100)
-	fmt.Println("结论：综合本班 61 人、2008-09-01~2011-07-12 仿真，学生最佳策略为「努力学习」或「回避对抗」时，平均成绩与留校表现更优；休学退学组留校率为 0，仅在高 PUA 暴露且高压力时被触发。")
+	totalStudents := namedCount + randomCount
+	fmt.Printf("结论：综合本班 %d 人、%s~%s 仿真，学生最佳策略为「努力学习」或「回避对抗」时，平均成绩与留校表现更优；休学退学组留校率为 0，仅在高 PUA 暴露且高压力时被触发。\n",
+		totalStudents, base.Format("2006-01-02"), end.Format("2006-01-02"))
 }

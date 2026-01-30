@@ -7,6 +7,7 @@ import (
 )
 
 // SimContext 当前时刻的系统聚合状态（用于策略与激励计算）
+// 重复博弈扩展：StepsRemaining 与 LastRoundTeacherDefection 用于历史/视界依赖策略。
 type SimContext struct {
 	Now          time.Time
 	TotalScore   float64
@@ -16,6 +17,9 @@ type SimContext struct {
 	AvgScore     float64
 	EnrollRate   float64
 	AvgStress    float64
+
+	StepsRemaining           int  // 剩余步数（用于终局效应与重复博弈视界）
+	LastRoundTeacherDefection bool // 上期是否有教师采取 PUA/减参考人数（用于报复/合作）
 }
 
 // SimState 时间序列空间中的仿真状态（时间第一成员）
@@ -100,36 +104,54 @@ func UpdateContext(now time.Time, agents []Agent) SimContext {
 	}
 }
 
-// Run 运行时间步进仿真；步长 step，步数 steps
+// Run 运行时间步进仿真；步长 step，步数 steps。
+// 重复博弈：每步先全体选策略（基于剩余步数及上期背叛），再统一施加后果，避免顺序依赖。
 func Run(birth time.Time, agents []Agent, step time.Duration, steps int, seed int64) SimState {
 	rng := rand.New(rand.NewSource(seed))
 	state := SimState{Birth: birth, Current: birth, Agents: agents, Duration: step * time.Duration(steps)}
+	chosen := make([]Strategy, len(agents))
+	lastRoundTeacherDefection := false
 
 	for i := 0; i < steps; i++ {
 		now := birth.Add(step * time.Duration(i))
 		state.Current = now
 		ctx := UpdateContext(now, state.Agents)
+		ctx.StepsRemaining = steps - i
+		ctx.LastRoundTeacherDefection = lastRoundTeacherDefection
 
 		// 采样激励函数（时间序列可视化用）
 		inc := Incentive(now, ctx.TotalScore, ctx.StudentCount, ctx.ExamCount, ctx.EnrollCount)
 		state.Points = append(state.Points, Point{T: now, V: inc})
 
-		// 每个 Agent 选策略并应用（简化：只对部分角色应用后果到随机目标）
+		// 阶段一：全体在册成员同时选策略（重复博弈：基于同一 ctx 与历史）
 		for j := range state.Agents {
+			chosen[j] = StrategyNone
 			a := &state.Agents[j]
 			if !a.InSchool {
 				continue
 			}
-			s := ChooseStrategy(now, a, &ctx)
+			chosen[j] = ChooseStrategy(now, a, &ctx)
+		}
+
+		// 阶段二：统一施加后果并更新 LastStrategy
+		lastRoundTeacherDefection = false
+		for j := range state.Agents {
+			a := &state.Agents[j]
+			s := chosen[j]
 			if s == StrategyNone {
 				continue
 			}
 			if len(a.StrategyCount) > int(s) {
 				a.StrategyCount[s]++
 			}
+			a.LastStrategy = s
 			c := ApplyStrategy(now, s, a, &ctx, rng)
 			state.Events = append(state.Events, LogTS(now, "[%s] %s 采取策略 %s", a.ID, a.Role.String(), s.String()))
 			a.LegalRisk += c.LegalRisk
+
+			if s == StrategyPUA || s == StrategyReduceExamCount {
+				lastRoundTeacherDefection = true
+			}
 
 			// 休学/退学：后果作用于行为者本人
 			if c.Dropout && isStudent(a.Role) {

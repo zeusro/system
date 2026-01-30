@@ -34,9 +34,12 @@ func ChooseStrategy(t time.Time, a *Agent, ctx *SimContext) Strategy {
 }
 
 func chooseTeacherYStrategy(t time.Time, a *Agent, ctx *SimContext) Strategy {
-	// 倾向用 PUA 减员提升平均分；若法规风险高则撒谎躲避
 	if a.Factor.LegalMoralRisk > 0.6 {
 		return StrategyLieEvade
+	}
+	// 重复博弈：上期已背叛则本期合作以恢复声誉
+	if ctx.LastRoundTeacherDefection && ctx.StepsRemaining > 1 {
+		return StrategyNormalTeach
 	}
 	if ctx.AvgScore < 0.5 && ctx.StudentCount > 5 {
 		return StrategyPUA
@@ -45,20 +48,27 @@ func chooseTeacherYStrategy(t time.Time, a *Agent, ctx *SimContext) Strategy {
 }
 
 func chooseTeacherFStrategy(t time.Time, a *Agent, ctx *SimContext) Strategy {
-	// 平均分 + 升学率：可减少参考人数
-	if ctx.ExamCount > 3 && ctx.EnrollRate < 0.6 {
-		return StrategyReduceExamCount
-	}
 	if a.Factor.LegalMoralRisk > 0.5 {
 		return StrategyLieEvade
+	}
+	if ctx.LastRoundTeacherDefection && ctx.StepsRemaining > 1 {
+		return StrategyNormalTeach
+	}
+	if ctx.ExamCount > 3 && ctx.EnrollRate < 0.6 {
+		return StrategyReduceExamCount
 	}
 	return StrategyNormalTeach
 }
 
 func chooseStudentJudasStrategy(t time.Time, a *Agent, ctx *SimContext) Strategy {
-	// 攀附教师F，网络暴力减员
+	// 重复博弈：终局时背叛；中期若教师上期背叛则可报复（网络暴力）
 	if ctx.StudentCount > 4 && a.Factor.LegalMoralRisk < 0.5 {
-		return StrategyNetworkViolence
+		if ctx.StepsRemaining <= 1 {
+			return StrategyNetworkViolence
+		}
+		if ctx.LastRoundTeacherDefection {
+			return StrategyNetworkViolence
+		}
 	}
 	return StrategyStudyHard
 }
@@ -81,10 +91,14 @@ func chooseStudentC13Strategy(t time.Time, a *Agent, ctx *SimContext) Strategy {
 }
 
 // chooseGenericStudentStrategy 普通学生：按因子与压力在 努力学习/回避对抗/休学 间选择
+// 重复博弈：上期教师背叛时倾向回避对抗（减少暴露于 PUA）
 func chooseGenericStudentStrategy(t time.Time, a *Agent, ctx *SimContext) Strategy {
 	netPUA := a.Factor.PUAExposure * (1 - a.Factor.PUAResistance)
 	if netPUA > 0.5 && a.Stress > 0.6 {
 		return StrategyDropout
+	}
+	if ctx.LastRoundTeacherDefection && ctx.StepsRemaining > 2 {
+		return StrategyAvoid
 	}
 	if a.Factor.IQ >= 0.6 {
 		return StrategyStudyHard

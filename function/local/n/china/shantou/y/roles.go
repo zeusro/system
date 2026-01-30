@@ -119,6 +119,9 @@ type Agent struct {
 
 	// 策略统计：仿真过程中各策略被选中的次数（仅学生有意义）
 	StrategyCount []int
+
+	// LastStrategy 上一期采取的策略（重复博弈：历史依赖）
+	LastStrategy Strategy
 }
 
 // NewAgent 构造 Agent，时间必须参与初始化
