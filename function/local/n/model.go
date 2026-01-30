@@ -55,3 +55,8 @@ func (du DistanceUnit) String() string {
 		return "unknown"
 	}
 }
+
+type Four struct {
+	Three
+	Time time.Time
+}
