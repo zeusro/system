@@ -7,6 +7,7 @@ import (
 
 // TestY 调用 Y(base, end, randomCount, seed) 确保主仿真流程不 panic，输出到 stdout。
 // 完整仿真步数较多，若需快速测试可加 -short 跳过或单独跑短仿真。
+// go test  -v -test.fullpath=true -timeout 30s -run ^TestY$ github.com/zeusro/system/function/local/n/china/shantou/y
 func TestY(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping full Y() in short mode")
@@ -22,7 +23,7 @@ func TestY_shortParams(t *testing.T) {
 	loc := time.FixedZone("CST", 8*3600)
 	base := time.Date(2008, 9, 1, 0, 0, 0, 0, loc)
 	end := time.Date(2008, 9, 5, 0, 0, 0, 0, loc) // 仅 4 天
-	Y(base, end, 2, 42)                            // 2 名随机学生
+	Y(base, end, 2, 42)                           // 2 名随机学生
 }
 
 // TestY_shortRun 用极短时间窗口跑 Run，校验建班、步进、事件与激励采样是否正常。

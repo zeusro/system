@@ -75,10 +75,10 @@ where \(\bar{s}(t)\) and \(r(t)\) are computed from in-school count, exam-taker 
 | Student Judas | Aligns with Teacher F | Affluent middle-class, can use cyberbullying to reduce numbers |
 | Student Black Mamba | Wealth | Does not sit exam; strategy set empty |
 | Student P | Low IQ, high PUA exposure | Dropout as passive resistance |
-| Student Y | Athlete bonus | Stable choice: athlete bonus |
+| Student Y | Athlete bonus | High-IQ athlete; athlete bonus requires school leader approval |
 | Student C13 | High IQ, poor | Stable choice: study hard |
 | Psychologist | System balance | Decompress and soothe |
-| School leader | \(I(t)\) | Low \(I(t)\) → pressure down; high → design incentives |
+| School leader | \(I(t)\) | Allocates resources (e.g. who gets bonus, who drops out); low \(I(t)\) → pressure down; high → design incentives |
 
 ### 3.2 Strategy Space
 
@@ -108,7 +108,7 @@ Strategy execution yields consequences \(\omega\): \(\Delta\text{Stress}\), \(\D
 - **Student P:** If net PUA pressure \(\pi > 0.5\) and \(\text{Stress} > 0.6\) → dropout; else avoid.
 - **Generic student:** High \(\pi\) and high stress → dropout; last-round teacher defection and steps remaining \(> 2\) → avoid; else choose study hard / avoid by IQ.
 - **Psychologist:** If average stress \(> 0.4\) → decompress.
-- **Leader:** If \(I(t) < 0.5\) → pressure down; else design incentive.
+- **Leader:** Allocates resources (e.g. approves athlete bonus when choosing “design incentive”). If \(I(t) < 0.5\) → pressure down; else design incentive. Student Y’s athlete bonus takes effect only when leader chooses design incentive in that step.
 
 These rules match the implementation \(\text{ChooseStrategy}(t, a, \text{ctx})\) and can be interpreted as **behavioral strategy** equilibrium correspondences under discrete states and thresholds.
 

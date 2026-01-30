@@ -130,7 +130,20 @@ func Run(birth time.Time, agents []Agent, step time.Duration, steps int, seed in
 			if !a.InSchool {
 				continue
 			}
+			// 学生黑曼巴：钞能力、不参与高考，不参与策略博弈（y.md）
+			if a.Role == RoleStudentBlackMamba {
+				continue
+			}
 			chosen[j] = ChooseStrategy(now, a, &ctx)
+		}
+
+		// 本步领导是否同意加分（y.md：学生 Y 获取加分需学校领导同意；领导选择「设计激励」即视为同意）
+		leaderApprovedBonus := false
+		for j := range state.Agents {
+			if state.Agents[j].Role == RoleSchoolLeader && chosen[j] == StrategyIncentiveDesign {
+				leaderApprovedBonus = true
+				break
+			}
 		}
 
 		// 阶段二：统一施加后果并更新 LastStrategy
@@ -159,9 +172,14 @@ func Run(birth time.Time, agents []Agent, step time.Duration, steps int, seed in
 				a.InExamPool = false
 				state.Events = append(state.Events, LogTS(now, "[后果] %s 休学/退学", a.ID))
 			}
-			// 运动员加分/努力学习/回避对抗：作用于本人
+			// 运动员加分/努力学习/回避对抗：作用于本人（y.md：学生 Y 加分需领导同意）
 			if (s == StrategyAthleteBonus || s == StrategyStudyHard || s == StrategyAvoid) && isStudent(a.Role) {
-				a.Score += c.DeltaScore
+				deltaScore := c.DeltaScore
+				if s == StrategyAthleteBonus && a.Role == RoleStudentY && !leaderApprovedBonus {
+					deltaScore = 0
+					state.Events = append(state.Events, LogTS(now, "[后果] %s 运动员加分需领导同意，本期未批准", a.ID))
+				}
+				a.Score += deltaScore
 				a.Stress += c.DeltaStress
 				clampAgentState(a)
 			}

@@ -9,16 +9,21 @@ import (
 )
 
 const (
-	namedCount = 5 // y.md 典型案例学生数（犹大、黑曼巴、P、Y、C13）
+	namedCount   = 5   // y.md 典型案例学生数（犹大、黑曼巴、P、Y、C13）
+	namedAgents  = 7   // 教师2 + 典型案例学生5
+	staffAgents  = 2   // 心理老师、领导
+	c13AgentID   = "student_c13"
+	initialSamples = 15
 )
 
-// Y 主仿真入口：时间上下界与随机学生数为前置参数，构建班级多角色时序仿真，输出时间序列日志与激励采样。
-// base 仿真起始时间，end 仿真结束时间，randomCount 随机学生人数，seed 随机种子。
-func Y(base, end time.Time, randomCount int, seed int64) {
-	rng := rand.New(rand.NewSource(seed))
+// 典型案例初始成绩（按角色设置，避免依赖 agents 下标顺序）
+var initialScoreByRole = map[Role]float64{
+	RoleStudentJudas: 0.55, RoleStudentP: 0.35, RoleStudentY: 0.52, RoleStudentC13: 0.88,
+}
 
-	// 教师、典型案例学生、心理老师、领导
-	agents := []Agent{
+// newNamedAgents 构造教师与命名学生（不含心理老师、领导），顺序固定便于与 initialScoreByRole 配合。
+func newNamedAgents(base time.Time) []Agent {
+	return []Agent{
 		NewAgent(base, "teacher_y", RoleTeacherY, Factor{
 			Birth: base, FamilyBackground: 0.5, IQ: 0.7, EQ: 0.5,
 			PUAExposure: 0, PUAResistance: 0.8, LegalMoralRisk: 0.3,
@@ -40,16 +45,29 @@ func Y(base, end time.Time, randomCount int, seed int64) {
 			PUAExposure: 0.8, PUAResistance: 0.2, LegalMoralRisk: 0.2,
 		}),
 		NewAgent(base, "student_y", RoleStudentY, Factor{
-			Birth: base, FamilyBackground: 0.5, IQ: 0.55, EQ: 0.6,
+			Birth: base, FamilyBackground: 0.5, IQ: 0.72, EQ: 0.6,
 			PUAExposure: 0.3, PUAResistance: 0.6, LegalMoralRisk: 0.25,
 		}),
-		NewAgent(base, "student_c13", RoleStudentC13, Factor{
+		NewAgent(base, c13AgentID, RoleStudentC13, Factor{
 			Birth: base, FamilyBackground: 0.15, IQ: 0.95, EQ: 0.7,
 			PUAExposure: 0.5, PUAResistance: 0.6, LegalMoralRisk: 0.2,
 		}),
 	}
-	// 典型案例初始成绩差异化
-	agents[2].Score, agents[4].Score, agents[5].Score, agents[6].Score = 0.55, 0.35, 0.52, 0.88
+}
+
+// Y 主仿真入口：时间上下界与随机学生数为前置参数，构建班级多角色时序仿真，输出时间序列日志与激励采样。
+// base 仿真起始时间，end 仿真结束时间，randomCount 随机学生人数，seed 随机种子。
+func Y(base, end time.Time, randomCount int, seed int64) {
+	rng := rand.New(rand.NewSource(seed))
+
+	agents := make([]Agent, 0, namedAgents+randomCount+staffAgents)
+	named := newNamedAgents(base)
+	for i := range named {
+		if score, ok := initialScoreByRole[named[i].Role]; ok {
+			named[i].Score = score
+		}
+		agents = append(agents, named[i])
+	}
 
 	// 追加 randomCount 名随机学生
 	for i := 0; i < randomCount; i++ {
@@ -85,13 +103,12 @@ func Y(base, end time.Time, randomCount int, seed int64) {
 	// 时间序列日志：仅输出条数与首尾样本
 	fmt.Println("=== 时间序列日志（时间+内容） ===")
 	fmt.Printf("共 %d 条\n", len(state.Events))
-	const sample = 15
-	if len(state.Events) > sample*2 {
-		for _, e := range state.Events[:sample] {
+	if len(state.Events) > initialSamples*2 {
+		for _, e := range state.Events[:initialSamples] {
 			fmt.Println(e.T.Format("2006-01-02") + " " + e.S)
 		}
 		fmt.Println("...")
-		for _, e := range state.Events[len(state.Events)-sample:] {
+		for _, e := range state.Events[len(state.Events)-initialSamples:] {
 			fmt.Println(e.T.Format("2006-01-02") + " " + e.S)
 		}
 	} else {
@@ -112,6 +129,8 @@ func Y(base, end time.Time, randomCount int, seed int64) {
 
 	// 学生最佳策略：按主导策略分组统计，得到最终推荐
 	printStudentBestStrategy(&state, base, end, randomCount)
+	// 文末 C13 建议（高 IQ 贫困生）
+	printC13Suggestion(&state)
 }
 
 // 学生可选策略子集（用于统计主导策略）
@@ -215,4 +234,58 @@ func printStudentBestStrategy(state *SimState, base, end time.Time, randomCount 
 	totalStudents := namedCount + randomCount
 	fmt.Printf("结论：综合本班 %d 人、%s~%s 仿真，学生最佳策略为「努力学习」或「回避对抗」时，平均成绩与留校表现更优；休学退学组留校率为 0，仅在高 PUA 暴露且高压力时被触发。\n",
 		totalStudents, base.Format("2006-01-02"), end.Format("2006-01-02"))
+}
+
+// printC13Suggestion 根据仿真结束状态对 C13（高 IQ 贫困生）输出个性化建议。
+func printC13Suggestion(state *SimState) {
+	var c13 *Agent
+	for i := range state.Agents {
+		if state.Agents[i].Role == RoleStudentC13 {
+			c13 = &state.Agents[i]
+			break
+		}
+	}
+	if c13 == nil {
+		return
+	}
+	// 主导策略
+	dominant := StrategyStudyHard
+	maxCount := 0
+	for _, s := range studentStrategies {
+		if int(s) < len(c13.StrategyCount) && c13.StrategyCount[s] > maxCount {
+			maxCount = c13.StrategyCount[s]
+			dominant = s
+		}
+	}
+
+	fmt.Println("\n=== C13 建议（高 IQ 贫困生） ===")
+	fmt.Printf("当前状态：在校=%v  成绩=%.4f  压力=%.4f  参考高考=%v  主导策略=%s\n",
+		c13.InSchool, c13.Score, c13.Stress, c13.InExamPool, dominant.String())
+
+	fmt.Print("建议：")
+	var tips []string
+	if c13.InSchool {
+		tips = append(tips, "保持「努力学习」策略，发挥高 IQ 优势")
+		if c13.Stress >= 0.5 {
+			tips = append(tips, "压力偏高可主动寻求心理老师减压")
+		}
+		if c13.Factor.FamilyBackground < 0.3 {
+			tips = append(tips, "家庭资源有限可关注助学金、专项计划等升学路径")
+		}
+		if c13.Score >= 0.6 && c13.InExamPool {
+			tips = append(tips, "当前成绩与参考状态有利于本科录取，可维持现有节奏")
+		}
+	} else {
+		tips = append(tips, "已离校/退考，可评估复读或替代升学路径")
+	}
+	if len(tips) == 0 {
+		tips = append(tips, "保持当前策略，注意压力与法规道德风险")
+	}
+	for i, t := range tips {
+		if i > 0 {
+			fmt.Print("；")
+		}
+		fmt.Print(t)
+	}
+	fmt.Println("。")
 }

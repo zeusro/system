@@ -9,13 +9,13 @@ const (
 	RoleTeacherY      Role = iota // 教师Y：以平均分激励，可减少分母
 	RoleTeacherF                  // 教师F：平均分+本科升学率，可减少参考人数
 	RoleStudentJudas              // 学生犹大：攀附教师F，网络暴力减员
-	RoleStudentBlackMamba         // 学生黑曼巴：钞能力，无需高考
+	RoleStudentBlackMamba         // 学生黑曼巴：钞能力，可不参加高考（无策略，y.md）
 	RoleStudentP                  // 学生P：低IQ，休学消极对抗
-	RoleStudentY                  // 学生Y：运动员加分
+	RoleStudentY                  // 学生Y：高IQ运动员，加分需领导同意（y.md）
 	RoleStudentC13                // 学生C13：高IQ贫困
 	RoleStudent                   // 普通学生：随机样本，按因子选策略
 	RolePsychologist               // 心理老师：降压力、安抚
-	RoleSchoolLeader               // 学校领导：政绩=平均分+本科升学率
+	RoleSchoolLeader               // 学校领导：政绩=平均分+升学率，负责分配资源（如谁加分、谁休学退学，y.md）
 )
 
 // NumStrategies 策略枚举数量，用于 StrategyCount 长度
