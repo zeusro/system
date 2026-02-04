@@ -1,4 +1,4 @@
-# Multi-Agent Game and Time-Incentive Function Under Educational Bureaucracy: A Formal Study Based on Repeated Games and Time-Series Simulation
+# Design of time incentive function under Chinese education
 
 ## Abstract
 
