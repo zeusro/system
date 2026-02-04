@@ -23,10 +23,6 @@
 - [Giving Buffett a Coke function](function/local/n/china/guangzhou/three.pdf)
 - [Sea Eye Algorithm](function/local/p/readme.md)
 
-## Shenzhen
-
-- [Parallel N Algorithm](function/local/n/china/shenzhen/szx/readme.en.md)
-
 ## Hangzhou
 
 - [Sheep Algorithm](function/local/n/china/hangzhou/sheep.md)
@@ -34,6 +30,14 @@
 ## Nanjing
 
 - [Nyarlathotep Algorithm](function/local/n/china/nanjing/nyarlathotep.go)
+
+## Shantou
+
+- [Y Algorithm](function/local/n/china/shantou/y/y.go#L73)
+
+## Shenzhen
+
+- [Parallel N Algorithm](function/local/n/china/shenzhen/szx/readme.en.md)
 
 ## Japan
 
@@ -91,6 +95,10 @@
 
 - [给大佬递可乐算法](function/local/n/china/guangzhou/three.pdf)
 - [海珠算法](function/local/p/readme.zh.md)
+
+## 汕头
+
+- [Y函数](function/local/n/china/shantou/y/y.go#L73)
 
 ## 深圳
 
