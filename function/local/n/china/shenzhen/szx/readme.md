@@ -472,7 +472,7 @@ p2 := model.RandonPoint()
 而且在其他的“平行时空”里面，实际上也是同样的运动点位，只是在“观测”的时候，坍塌成一个结果。
 
 这是以时间作为键，设计出来的一种无锁多线程解题方案，同时也是N维空间量子运动的程序化解释。
-并且这种算法，也使用了时间序列，试图去解释角谷不动点。
+这种算法使用了时间序列，试图去解释角谷不动点。
 
 完整算法见：
 [https://github.com/zeusro/system/tree/main/function/local/n/china/shenzhen/szx/v3](https://github.com/zeusro/system/tree/main/function/local/n/china/shenzhen/szx/v3)
