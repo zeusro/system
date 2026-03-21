@@ -27,6 +27,10 @@
 
 - [Chinese ID Validation Algorithm (GB 11643-1999)](function/local/n/china/hengnan/chinese_id.go)
 
+## Chenzhou
+
+- [Chinese License Plate Region Lookup](function/local/n/china/chenzhou/car.go) · [reference table](function/local/n/china/chenzhou/readme.md)
+
 ## Hangzhou
 
 - [Sheep Algorithm](function/local/n/china/hangzhou/sheep.md)
@@ -103,6 +107,10 @@
 ## 衡南
 
 - [身份证校验算法 (GB 11643-1999)](function/local/n/china/hengnan/chinese_id.go)
+
+## 郴州
+
+- [中国车牌省市解析算法](function/local/n/china/chenzhou/car.go) · [对照表说明](function/local/n/china/chenzhou/readme.md)
 
 ## 汕头
 
