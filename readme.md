@@ -46,6 +46,7 @@
 ## Shenzhen
 
 - [Parallel N Algorithm](function/local/n/china/shenzhen/szx/readme.en.md)
+- [Neon Catwalk Nearest-Pick Elevator Algorithm](function/local/n/china/person.go)
 
 ## Japan
 
@@ -119,6 +120,7 @@
 ## 深圳
 
 - [无锁并发访问受限资源的平行时空算法](function/local/n/china/shenzhen/szx)
+- [霓虹猫步·最短迎客选梯算法](function/local/n/china/person.go)
 
 ## 杭州
 
